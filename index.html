@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>綠色劇場經理</title>
+    <title>綠色劇場經理 | Green Theater Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
@@ -13,6 +13,14 @@
             color: #e0e0e0;
             min-height: 100vh;
             overflow-x: hidden;
+        }
+
+        .logo {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 150px; /* Adjust size as needed */
+            z-index: 1000; /* Ensure it stays on top */
         }
         
         .theater-bg {
@@ -184,53 +192,56 @@
     </style>
 </head>
 <body style="margin: 0px;">
+    <!-- Logo added here -->
+    <img src="https://d329ms1y997xa5.cloudfront.net/accounts/206453/images/Library-logo_white.png" alt="Theater Logo" class="logo">
+
     <div id="game-container" class="min-h-screen flex flex-col">
         <div id="start-screen" class="theater-bg min-h-screen flex flex-col items-center justify-center p-4 text-center">
             <div class="max-w-3xl bg-black bg-opacity-70 p-8 rounded-xl">
-                <h1 class="text-4xl md:text-5xl font-bold text-green-400 mb-4">綠色劇場經理</h1>
-                <p class="text-xl mb-6">成為永續劇場的先驅，實踐 Theatre Green Book 的理念！</p>
+                <h1 id="start-title" class="text-4xl md:text-5xl font-bold text-green-400 mb-4">綠色劇場經理</h1>
+                <p id="start-description" class="text-xl mb-6">成為永續劇場的先驅，實踐 Theatre Green Book 的理念！</p>
+                <div class="mb-4">
+                    <button id="lang-zh" class="mr-2 bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">中文</button>
+                    <button id="lang-en" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">English</button>
+                </div>
                 <div class="flex flex-col md:flex-row gap-4 justify-center mb-8">
                     <div class="bg-green-900 bg-opacity-60 p-4 rounded-lg">
                         <div id="desc-image-production" class="desc-image stage-bg"></div>
-                        <h3 class="text-lg font-bold text-green-400">永續製作</h3>
-                        <p>選擇環保的道具材料</p>
+                        <h3 id="feature1-title" class="text-lg font-bold text-green-400">永續製作</h3>
+                        <p id="feature1-desc">選擇環保的道具材料</p>
                     </div>
                     <div class="bg-green-900 bg-opacity-60 p-4 rounded-lg">
                         <div id="desc-image-building" class="desc-image lighting-bg"></div>
-                        <h3 class="text-lg font-bold text-green-400">永續建築</h3>
-                        <p>升級劇場設施以節能減排</p>
+                        <h3 id="feature2-title" class="text-lg font-bold text-green-400">永續建築</h3>
+                        <p id="feature2-desc">升級劇場設施以節能減排</p>
                     </div>
                     <div class="bg-green-900 bg-opacity-60 p-4 rounded-lg">
                         <div id="desc-image-operations" class="desc-image program-bg"></div>
-                        <h3 class="text-lg font-bold text-green-400">永續營運</h3>
-                        <p>改善日常運作減少浪費</p>
+                        <h3 id="feature3-title" class="text-lg font-bold text-green-400">永續營運</h3>
+                        <p id="feature3-desc">改善日常運作減少浪費</p>
                     </div>
                 </div>
                 <button id="start-btn" class="btn bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-8 rounded-full text-xl shadow-lg pulse">
                     開始遊戲
                 </button>
-                
-                <div class="mt-8">
-                    <!-- 已移除「開發者資訊」按鈕 -->
-                </div>
             </div>
         </div>
 
         <div id="game-screen" class="hidden min-h-screen flex flex-col">
             <header class="bg-green-900 p-4 shadow-md sticky top-0 z-10">
                 <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
-                    <h1 class="text-2xl font-bold text-green-300">綠色劇場經理</h1>
+                    <h1 id="header-title" class="text-2xl font-bold text-green-300">綠色劇場經理</h1>
                     <div class="flex items-center space-x-6 mt-2 md:mt-0">
                         <div class="flex items-center">
-                            <span class="mr-2">💰</span>
+                            <span id="budget-label">💰</span>
                             <span id="budget" class="font-bold">$10000</span>
                         </div>
                         <div class="flex items-center">
-                            <span class="mr-2">😊</span>
+                            <span id="satisfaction-label">😊</span>
                             <span id="satisfaction" class="font-bold">80%</span>
                         </div>
                         <div class="flex items-center">
-                            <span class="mr-2">🌱</span>
+                            <span id="level-label">🌱</span>
                             <span id="level-display" class="font-bold">第 1 關 / 10 關</span>
                         </div>
                     </div>
@@ -240,14 +251,14 @@
             <div class="bg-gray-800 p-2 sticky top-[72px] z-10">
                 <div class="container mx-auto">
                     <div class="flex items-center mb-2">
-                        <span class="mr-2 text-sm">觀眾滿意度:</span>
+                        <span id="satisfaction-progress-label" class="mr-2 text-sm">觀眾滿意度:</span>
                         <div class="w-full bg-gray-700 rounded-full h-4">
                             <div id="satisfaction-progress" class="satisfaction-progress h-4 rounded-full progress-bar" style="width: 80%"></div>
                         </div>
                         <span id="satisfaction-value" class="ml-2 text-sm">80%</span>
                     </div>
                     <div class="flex items-center">
-                        <span class="mr-2 text-sm">永續指數:</span>
+                        <span id="sustainability-progress-label" class="mr-2 text-sm">永續指數:</span>
                         <div class="w-full bg-gray-700 rounded-full h-4">
                             <div id="sustainability-progress" class="sustainability-progress h-4 rounded-full progress-bar" style="width: 10%"></div>
                         </div>
@@ -272,24 +283,24 @@
                     </div>
 
                     <div id="feedback-container" class="hidden bg-green-900 bg-opacity-50 rounded-xl p-6 mb-6 shadow-lg fade-in">
-                        <h3 class="text-xl font-bold text-green-300 mb-2">選擇結果</h3>
+                        <h3 id="feedback-title" class="text-xl font-bold text-green-300 mb-2">選擇結果</h3>
                         <p id="feedback-text" class="mb-4"></p>
                         <div class="flex flex-wrap gap-4">
                             <div class="bg-gray-800 bg-opacity-60 p-3 rounded-lg">
-                                <span class="font-bold text-green-400">預算影響:</span>
+                                <span id="budget-impact-label" class="font-bold text-green-400">預算影響:</span>
                                 <span id="budget-impact"></span>
                             </div>
                             <div class="bg-gray-800 bg-opacity-60 p-3 rounded-lg">
-                                <span class="font-bold text-green-400">滿意度影響:</span>
+                                <span id="satisfaction-impact-label" class="font-bold text-green-400">滿意度影響:</span>
                                 <span id="satisfaction-impact"></span>
                             </div>
                             <div class="bg-gray-800 bg-opacity-60 p-3 rounded-lg">
-                                <span class="font-bold text-green-400">永續指數影響:</span>
+                                <span id="sustainability-impact-label" class="font-bold text-green-400">永續指數影響:</span>
                                 <span id="sustainability-impact"></span>
                             </div>
                         </div>
                         <div class="mt-4 p-4 bg-green-800 bg-opacity-30 rounded-lg">
-                            <h4 class="font-bold text-green-300">💡 永續小知識</h4>
+                            <h4 id="tip-title" class="font-bold text-green-300">💡 永續小知識</h4>
                             <p id="sustainability-tip"></p>
                         </div>
                         <button id="next-btn" class="btn mt-4 bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded-lg">
@@ -302,8 +313,8 @@
 
         <div id="results-screen" class="hidden min-h-screen theater-bg flex flex-col items-center justify-center p-4">
             <div class="max-w-3xl bg-black bg-opacity-80 p-8 rounded-xl text-center">
-                <h2 class="text-3xl font-bold text-green-400 mb-4">遊戲結束！</h2>
-                <p class="text-xl mb-6">你的劇場永續之旅已完成</p>
+                <h2 id="results-title" class="text-3xl font-bold text-green-400 mb-4">遊戲結束！</h2>
+                <p id="results-description" class="text-xl mb-6">你的劇場永續之旅已完成</p>
                 
                 <div class="mb-6">
                     <h3 class="text-2xl font-bold text-yellow-400 mb-2">你獲得了 <span id="final-title">永續新手</span> 稱號！</h3>
@@ -313,21 +324,21 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 class="font-bold text-green-400">最終預算</h4>
+                        <h4 id="final-budget-label" class="font-bold text-green-400">最終預算</h4>
                         <p id="final-budget" class="text-2xl">$8,500</p>
                     </div>
                     <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 class="font-bold text-green-400">觀眾滿意度</h4>
+                        <h4 id="final-satisfaction-label" class="font-bold text-green-400">觀眾滿意度</h4>
                         <p id="final-satisfaction" class="text-2xl">75%</p>
                     </div>
                     <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 class="font-bold text-green-400">永續指數</h4>
+                        <h4 id="final-sustainability-label" class="font-bold text-green-400">永續指數</h4>
                         <p id="final-sustainability" class="text-2xl">40%</p>
                     </div>
                 </div>
                 
                 <div class="bg-green-900 bg-opacity-50 p-4 rounded-lg mb-6">
-                    <h4 class="font-bold text-green-300 mb-2">環境影響報告</h4>
+                    <h4 id="environmental-impact-label" class="font-bold text-green-300 mb-2">環境影響報告</h4>
                     <p id="environmental-impact">你的決策幫助減少了約 2.5 噸的碳排放，相當於種植了 40 棵樹！</p>
                 </div>
                 
@@ -344,8 +355,8 @@
         
         <div id="failure-screen" class="hidden min-h-screen theater-bg flex flex-col items-center justify-center p-4">
             <div class="max-w-3xl bg-black bg-opacity-80 p-8 rounded-xl text-center shake">
-                <h2 class="text-3xl font-bold text-red-500 mb-4">任務失敗！</h2>
-                <p class="text-xl mb-6">你的劇場未能達到永續發展的標準</p>
+                <h2 id="failure-title" class="text-3xl font-bold text-red-500 mb-4">任務失敗！</h2>
+                <p id="failure-description" class="text-xl mb-6">你的劇場未能達到永續發展的標準</p>
                 
                 <div class="mb-6">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto text-red-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -356,15 +367,15 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 class="font-bold text-green-400">最終預算</h4>
+                        <h4 id="failure-budget-label" class="font-bold text-green-400">最終預算</h4>
                         <p id="failure-budget" class="text-2xl">$8,500</p>
                     </div>
                     <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 class="font-bold text-green-400">觀眾滿意度</h4>
+                        <h4 id="failure-satisfaction-label" class="font-bold text-green-400">觀眾滿意度</h4>
                         <p id="failure-satisfaction" class="text-2xl">75%</p>
                     </div>
                     <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 class="font-bold text-green-400">永續指數</h4>
+                        <h4 id="failure-sustainability-label" class="font-bold text-green-400">永續指數</h4>
                         <p id="failure-sustainability" class="text-2xl">40%</p>
                     </div>
                 </div>
@@ -376,11 +387,86 @@
                 </div>
             </div>
         </div>
-        
-        <!-- 已移除「source-modal」相關 HTML -->
     </div>
 
     <script>
+        let currentLanguage = 'zh'; // Default language is Chinese
+
+        const textContent = {
+            zh: {
+                startTitle: "綠色劇場經理",
+                startDescription: "成為永續劇場的先驅，實踐 Theatre Green Book 的理念！",
+                feature1Title: "永續製作",
+                feature1Desc: "選擇環保的道具材料",
+                feature2Title: "永續建築",
+                feature2Desc: "升級劇場設施以節能減排",
+                feature3Title: "永續營運",
+                feature3Desc: "改善日常運作減少浪費",
+                startButton: "開始遊戲",
+                headerTitle: "綠色劇場經理",
+                budgetLabel: "💰",
+                satisfactionLabel: "😊",
+                levelLabel: "🌱",
+                satisfactionProgressLabel: "觀眾滿意度:",
+                sustainabilityProgressLabel: "永續指數:",
+                feedbackTitle: "選擇結果",
+                budgetImpactLabel: "預算影響:",
+                satisfactionImpactLabel: "滿意度影響:",
+                sustainabilityImpactLabel: "永續指數影響:",
+                tipTitle: "💡 永續小知識",
+                nextButton: "繼續",
+                resultsTitle: "遊戲結束！",
+                resultsDescription: "你的劇場永續之旅已完成",
+                finalBudgetLabel: "最終預算",
+                finalSatisfactionLabel: "觀眾滿意度",
+                finalSustainabilityLabel: "永續指數",
+                environmentalImpactLabel: "環境影響報告",
+                restartButton: "重新遊戲",
+                failureTitle: "任務失敗！",
+                failureDescription: "你的劇場未能達到永續發展的標準",
+                failureBudgetLabel: "最終預算",
+                failureSatisfactionLabel: "觀眾滿意度",
+                failureSustainabilityLabel: "永續指數",
+                restartFromFailureButton: "重新遊戲"
+            },
+            en: {
+                startTitle: "Green Theater Manager",
+                startDescription: "Become a pioneer in sustainable theater and implement the Theatre Green Book's principles!",
+                feature1Title: "Sustainable Production",
+                feature1Desc: "Choose eco-friendly materials for props",
+                feature2Title: "Sustainable Buildings",
+                feature2Desc: "Upgrade theater facilities for energy efficiency",
+                feature3Title: "Sustainable Operations",
+                feature3Desc: "Improve daily operations to reduce waste",
+                startButton: "Start Game",
+                headerTitle: "Green Theater Manager",
+                budgetLabel: "💰",
+                satisfactionLabel: "😊",
+                levelLabel: "🌱",
+                satisfactionProgressLabel: "Audience Satisfaction:",
+                sustainabilityProgressLabel: "Sustainability Index:",
+                feedbackTitle: "Choice Result",
+                budgetImpactLabel: "Budget Impact:",
+                satisfactionImpactLabel: "Satisfaction Impact:",
+                sustainabilityImpactLabel: "Sustainability Impact:",
+                tipTitle: "💡 Sustainability Tip",
+                nextButton: "Continue",
+                resultsTitle: "Game Over!",
+                resultsDescription: "Your sustainable theater journey is complete",
+                finalBudgetLabel: "Final Budget",
+                finalSatisfactionLabel: "Audience Satisfaction",
+                finalSustainabilityLabel: "Sustainability Index",
+                environmentalImpactLabel: "Environmental Impact Report",
+                restartButton: "Restart Game",
+                failureTitle: "Mission Failed!",
+                failureDescription: "Your theater failed to meet sustainability standards",
+                failureBudgetLabel: "Final Budget",
+                failureSatisfactionLabel: "Audience Satisfaction",
+                failureSustainabilityLabel: "Sustainability Index",
+                restartFromFailureButton: "Restart Game"
+            }
+        };
+
         const gameState = {
             currentLevel: 1,
             maxLevels: 10,
@@ -394,361 +480,165 @@
         };
 
         const scenarios = [
-    {
-        id: 1,
-        title: "永續製作：舞台布景選擇",
-        description: "你的劇場即將製作一齣新戲，需要決定舞台布景的材料。你會選擇什麼？",
-        image: "stage",
-        choices: [
             {
-                text: "全新材料",
-                budgetImpact: -1000,
-                satisfactionImpact: 5,
-                sustainabilityImpact: -5,
-                feedback: "全新材料看起來很棒，觀眾很滿意，但對環境影響較大。",
-                tip: "根據 Theatre Green Book，重複使用現有材料可以減少高達 60% 的製作碳足跡。"
+                id: 1,
+                title: { zh: "永續製作：舞台布景選擇", en: "Sustainable Production: Stage Set Choice" },
+                description: { zh: "你的劇場即將製作一齣新戲，需要決定舞台布景的材料。你會選擇什麼？", en: "Your theater is about to produce a new play and needs to decide on materials for the stage set. What will you choose?" },
+                image: "stage",
+                choices: [
+                    { text: { zh: "全新材料", en: "Brand New Materials" }, budgetImpact: -1000, satisfactionImpact: 5, sustainabilityImpact: -5, feedback: { zh: "全新材料看起來很棒，觀眾很滿意，但對環境影響較大。", en: "Brand new materials look great, and the audience is satisfied, but they have a significant environmental impact." }, tip: { zh: "根據 Theatre Green Book，重複使用現有材料可以減少高達 60% 的製作碳足跡。", en: "According to the Theatre Green Book, reusing existing materials can reduce the production carbon footprint by up to 60%." } },
+                    { text: { zh: "回收再利用的材料", en: "Recycled and Reused Materials" }, budgetImpact: -500, satisfactionImpact: 0, sustainabilityImpact: 10, feedback: { zh: "你使用了回收材料，節省了成本，也減少了環境影響。", en: "You used recycled materials, saving costs and reducing environmental impact." }, tip: { zh: "回收材料不僅環保，還能激發創意設計，Theatre Green Book 建議優先考慮再利用和回收。", en: "Recycled materials are not only eco-friendly but also inspire creative design. The Theatre Green Book recommends prioritizing reuse and recycling." } },
+                    { text: { zh: "租借或改造現有布景", en: "Rent or Modify Existing Sets" }, budgetImpact: -300, satisfactionImpact: -2, sustainabilityImpact: 15, feedback: { zh: "改造現有布景大幅節省了資源，雖然有些觀眾注意到了重複使用的元素。", en: "Modifying existing sets significantly saves resources, though some audience members noticed reused elements." }, tip: { zh: "Theatre Green Book 推薦的最佳實踐是先考慮是否能改造現有資源，再考慮購買新材料。", en: "The Theatre Green Book recommends first considering whether existing resources can be modified before purchasing new materials." } }
+                ]
             },
             {
-                text: "回收再利用的材料",
-                budgetImpact: -500,
-                satisfactionImpact: 0,
-                sustainabilityImpact: +10,
-                feedback: "你使用了回收材料，節省了成本，也減少了環境影響。",
-                tip: "回收材料不僅環保，還能激發創意設計，Theatre Green Book 建議優先考慮再利用和回收。"
+                id: 2,
+                title: { zh: "永續建築：照明系統升級", en: "Sustainable Buildings: Lighting System Upgrade" },
+                description: { zh: "劇場的照明系統老舊耗電，是時候考慮升級了。你會如何選擇？", en: "The theater's lighting system is old and power-hungry. It's time to consider an upgrade. What will you choose?" },
+                image: "lighting",
+                choices: [
+                    { text: { zh: "維持現有系統", en: "Maintain Existing System" }, budgetImpact: -200, satisfactionImpact: -5, sustainabilityImpact: -5, feedback: { zh: "維持老舊系統節省了短期成本，但能源消耗高，且燈光效果不佳。", en: "Maintaining the old system saves short-term costs, but it consumes high energy and has poor lighting effects." }, tip: { zh: "傳統劇場照明可能消耗劇場總能源的 30-40%，是減碳的重要目標。", en: "Traditional theater lighting can account for 30-40% of total energy use, making it a key target for carbon reduction." } },
+                    { text: { zh: "部分更換為 LED 燈具", en: "Partially Replace with LED Lights" }, budgetImpact: -1000, satisfactionImpact: 5, sustainabilityImpact: 10, feedback: { zh: "部分更換為 LED 燈具平衡了成本和環保需求，觀眾注意到了更好的燈光效果。", en: "Partially switching to LED lights balances cost and sustainability, with audiences noticing improved lighting effects." }, tip: { zh: "LED 燈具比傳統燈具節能 70-80%，且壽命更長，長期來看更經濟。", en: "LED lights are 70-80% more energy-efficient than traditional lights and have a longer lifespan, making them more cost-effective in the long run." } },
+                    { text: { zh: "全面升級為智能 LED 系統", en: "Fully Upgrade to Smart LED System" }, budgetImpact: -2500, satisfactionImpact: 10, sustainabilityImpact: 20, feedback: { zh: "全面升級為智能 LED 系統初期投資大，但大幅提升了能源效率和觀眾體驗。", en: "Fully upgrading to a smart LED system requires a large initial investment but greatly improves energy efficiency and audience experience." }, tip: { zh: "Theatre Green Book 建議，智能照明系統不僅節能，還能通過自動調節減少不必要的能源消耗。", en: "The Theatre Green Book suggests that smart lighting systems not only save energy but also reduce unnecessary consumption through automation." } }
+                ]
             },
             {
-                text: "租借或改造現有布景",
-                budgetImpact: -300,
-                satisfactionImpact: -2,
-                sustainabilityImpact: 15,
-                feedback: "改造現有布景大幅節省了資源，雖然有些觀眾注意到了重複使用的元素。",
-                tip: "Theatre Green Book 推薦的最佳實踐是先考慮是否能改造現有資源，再考慮購買新材料。"
+                id: 3,
+                title: { zh: "永續營運：觀眾節目單", en: "Sustainable Operations: Audience Programs" },
+                description: { zh: "每場演出都需要提供節目單，你會選擇哪種方式？", en: "Each performance requires providing programs to the audience. Which method will you choose?" },
+                image: "program",
+                choices: [
+                    { text: { zh: "傳統紙質節目單", en: "Traditional Paper Programs" }, budgetImpact: -500, satisfactionImpact: 5, sustainabilityImpact: -10, feedback: { zh: "紙質節目單受到部分觀眾歡迎，但造成了大量紙張浪費。", en: "Paper programs are popular with some audience members but result in significant paper waste." }, tip: { zh: "一個中型劇場一年可能使用超過 10,000 份紙質節目單，大部分演出後即被丟棄。", en: "A medium-sized theater might use over 10,000 paper programs annually, most of which are discarded after performances." } },
+                    { text: { zh: "可回收紙張 + 減量印刷", en: "Recycled Paper + Reduced Printing" }, budgetImpact: -300, satisfactionImpact: 0, sustainabilityImpact: 5, feedback: { zh: "使用可回收紙張並減少印刷數量，平衡了環保和觀眾需求。", en: "Using recycled paper and reducing print runs balances environmental concerns with audience needs." }, tip: { zh: "Theatre Green Book 建議使用 FSC 認證紙張，並考慮「一個家庭一份」的分發策略。", en: "The Theatre Green Book recommends using FSC-certified paper and adopting a 'one per family' distribution strategy." } },
+                    { text: { zh: "數位節目單 + QR 碼", en: "Digital Programs + QR Codes" }, budgetImpact: -100, satisfactionImpact: -5, sustainabilityImpact: 15, feedback: { zh: "數位節目單大幅減少了紙張使用，但部分年長觀眾不太適應。", en: "Digital programs significantly reduce paper use, though some older audience members may find them less accessible." }, tip: { zh: "數位節目單不僅環保，還能提供更豐富的內容，如演員介紹視頻、互動元素等。", en: "Digital programs are not only eco-friendly but can also offer richer content, like actor introduction videos and interactive elements." } }
+                ]
+            },
+            {
+                id: 4,
+                title: { zh: "永續製作：服裝選擇", en: "Sustainable Production: Costume Choice" },
+                description: { zh: "新劇目需要服裝設計，你會如何指導服裝部門？", en: "A new production requires costume design. How will you guide the costume department?" },
+                image: "costume",
+                choices: [
+                    { text: { zh: "全新定制服裝", en: "Brand New Custom Costumes" }, budgetImpact: -1500, satisfactionImpact: 10, sustainabilityImpact: -10, feedback: { zh: "全新定制服裝視覺效果極佳，但消耗了大量資源。", en: "Brand new custom costumes offer excellent visual impact but consume significant resources." }, tip: { zh: "時尚產業是全球第二大污染產業，劇場服裝的可持續性對環境有重要影響。", en: "The fashion industry is the second most polluting globally, making costume sustainability critical for the environment." } },
+                    { text: { zh: "改造現有庫存服裝", en: "Modify Existing Inventory Costumes" }, budgetImpact: -500, satisfactionImpact: 0, sustainabilityImpact: 10, feedback: { zh: "改造現有服裝節省了資源，創意設計彌補了視覺上的差異。", en: "Modifying existing costumes saves resources, with creative design compensating for visual differences." }, tip: { zh: "Theatre Green Book 建議建立服裝庫存共享系統，最大化服裝的使用壽命。", en: "The Theatre Green Book suggests creating a costume inventory sharing system to maximize their lifespan." } },
+                    { text: { zh: "二手店採購 + 少量定制", en: "Second-Hand Purchases + Minimal Customization" }, budgetImpact: -800, satisfactionImpact: 5, sustainabilityImpact: 5, feedback: { zh: "結合二手採購和少量定制，既環保又保證了視覺效果。", en: "Combining second-hand purchases with minimal customization is both eco-friendly and ensures visual quality." }, tip: { zh: "混合採購策略可以減少高達 75% 的服裝碳足跡，同時保持藝術品質。", en: "A mixed procurement strategy can reduce costume carbon footprints by up to 75% while maintaining artistic quality." } }
+                ]
+            },
+            {
+                id: 5,
+                title: { zh: "永續建築：空調系統管理", en: "Sustainable Buildings: HVAC System Management" },
+                description: { zh: "夏季到來，劇場空調使用量大增，你會如何管理？", en: "Summer has arrived, and theater air conditioning use is surging. How will you manage it?" },
+                image: "hvac",
+                choices: [
+                    { text: { zh: "全天開啟空調", en: "Run AC All Day" }, budgetImpact: -1000, satisfactionImpact: 10, sustainabilityImpact: -15, feedback: { zh: "全天開啟空調讓觀眾感到舒適，但能源消耗巨大。", en: "Running the AC all day keeps audiences comfortable but consumes massive amounts of energy." }, tip: { zh: "空調系統可能佔劇場能源消耗的 40-50%，是節能的重要目標。", en: "HVAC systems can account for 40-50% of a theater's energy use, making them a key focus for energy savings." } },
+                    { text: { zh: "智能溫控系統", en: "Smart Temperature Control System" }, budgetImpact: -2000, satisfactionImpact: 5, sustainabilityImpact: 20, feedback: { zh: "安裝智能溫控系統初期投資較大，但長期節省能源並維持舒適度。", en: "Installing a smart temperature control system has a high initial cost but saves energy and maintains comfort long-term." }, tip: { zh: "智能溫控可以根據觀眾人數和室外溫度自動調節，比固定溫度設定節能 20-30%。", en: "Smart controls can adjust based on audience size and outdoor temperature, saving 20-30% more energy than fixed settings." } },
+                    { text: { zh: "自然通風 + 高效風扇", en: "Natural Ventilation + High-Efficiency Fans" }, budgetImpact: -500, satisfactionImpact: -5, sustainabilityImpact: 25, feedback: { zh: "結合自然通風和高效風扇大幅減少能源使用，但在極端天氣可能影響舒適度。", en: "Combining natural ventilation with efficient fans greatly reduces energy use, though comfort may suffer in extreme weather." }, tip: { zh: "Theatre Green Book 建議優先考慮被動式降溫策略，如遮陽、自然通風等，再輔以高效設備。", en: "The Theatre Green Book recommends prioritizing passive cooling strategies like shading and ventilation, supplemented by efficient equipment." } }
+                ]
+            },
+            {
+                id: 6,
+                title: { zh: "永續營運：餐飲服務", en: "Sustainable Operations: Catering Services" },
+                description: { zh: "劇場休息時間提供餐飲服務，你會如何規劃？", en: "The theater offers catering during intermissions. How will you plan it?" },
+                image: "catering",
+                choices: [
+                    { text: { zh: "一次性餐具 + 進口食品", en: "Disposable Utensils + Imported Food" }, budgetImpact: -800, satisfactionImpact: 5, sustainabilityImpact: -15, feedback: { zh: "一次性餐具方便但產生大量垃圾，進口食品碳足跡高。", en: "Disposable utensils are convenient but generate lots of waste, and imported food has a high carbon footprint." }, tip: { zh: "一次性塑料餐具可能需要數百年才能分解，是劇場常見的環境問題。", en: "Disposable plastic utensils can take centuries to decompose, a common environmental issue in theaters." } },
+                    { text: { zh: "可堆肥餐具 + 當地食材", en: "Compostable Utensils + Local Ingredients" }, budgetImpact: -1000, satisfactionImpact: 10, sustainabilityImpact: 15, feedback: { zh: "可堆肥餐具和當地食材減少了環境影響，觀眾對品質印象良好。", en: "Compostable utensils and local ingredients reduce environmental impact, and audiences appreciate the quality." }, tip: { zh: "當地採購可以減少食物里程，降低碳排放高達 70%，同時支持當地經濟。", en: "Local sourcing can reduce food miles, cutting carbon emissions by up to 70% while supporting the local economy." } },
+                    { text: { zh: "可重複使用餐具 + 素食選項", en: "Reusable Utensils + Vegetarian Options" }, budgetImpact: -1200, satisfactionImpact: 0, sustainabilityImpact: 25, feedback: { zh: "可重複使用餐具初期成本高但長期節省，素食選項大幅減少碳足跡。", en: "Reusable utensils have a high initial cost but save long-term, and vegetarian options significantly reduce the carbon footprint." }, tip: { zh: "Theatre Green Book 建議提供至少 50% 的植物性食品選項，可減少高達 60% 的餐飲碳足跡。", en: "The Theatre Green Book recommends offering at least 50% plant-based food options, reducing catering carbon footprints by up to 60%." } }
+                ]
+            },
+            {
+                id: 7,
+                title: { zh: "永續製作：特效選擇", en: "Sustainable Production: Special Effects Choice" },
+                description: { zh: "新劇目需要一些特效元素，你會選擇哪種方案？", en: "A new production requires special effects. Which option will you choose?" },
+                image: "effects",
+                choices: [
+                    { text: { zh: "傳統煙霧和火焰效果", en: "Traditional Smoke and Fire Effects" }, budgetImpact: -1000, satisfactionImpact: 15, sustainabilityImpact: -20, feedback: { zh: "傳統特效視覺衝擊力強，但使用了有害化學物質和高能耗設備。", en: "Traditional effects have strong visual impact but use harmful chemicals and high-energy equipment." }, tip: { zh: "傳統煙霧機使用的液體可能含有對環境有害的化學物質，且消耗大量能源。", en: "Traditional fog machines use liquids that may contain environmentally harmful chemicals and consume significant energy." } },
+                    { text: { zh: "LED 燈光 + 投影效果", en: "LED Lighting + Projection Effects" }, budgetImpact: -1500, satisfactionImpact: 10, sustainabilityImpact: 15, feedback: { zh: "數位特效減少了物理資源消耗，同時提供了豐富的視覺體驗。", en: "Digital effects reduce physical resource use while providing a rich visual experience." }, tip: { zh: "數位投影不僅環保，還能創造傳統特效難以實現的複雜視覺效果。", en: "Digital projections are eco-friendly and can create complex visual effects difficult to achieve with traditional methods." } },
+                    { text: { zh: "機械裝置 + 簡約設計", en: "Mechanical Devices + Minimalist Design" }, budgetImpact: -800, satisfactionImpact: 5, sustainabilityImpact: 10, feedback: { zh: "機械裝置和簡約設計減少了能源消耗，依靠創意彌補視覺效果。", en: "Mechanical devices and minimalist design reduce energy use, relying on creativity to enhance visuals." }, tip: { zh: "Theatre Green Book 鼓勵「少即是多」的設計理念，通過創意而非資源消耗來實現藝術效果。", en: "The Theatre Green Book encourages a 'less is more' design philosophy, achieving artistic effects through creativity rather than resource consumption." } }
+                ]
+            },
+            {
+                id: 8,
+                title: { zh: "永續建築：能源來源", en: "Sustainable Buildings: Energy Source" },
+                description: { zh: "劇場需要選擇能源供應商，你會如何決策？", en: "The theater needs to choose an energy supplier. How will you decide?" },
+                image: "energy",
+                choices: [
+                    { text: { zh: "傳統電網供電", en: "Traditional Grid Power" }, budgetImpact: -500, satisfactionImpact: 0, sustainabilityImpact: -10, feedback: { zh: "傳統電網成本較低，但主要依賴化石燃料，碳排放高。", en: "Traditional grid power is cheaper but relies heavily on fossil fuels, resulting in high carbon emissions." }, tip: { zh: "傳統電網在許多地區仍以煤炭和天然氣為主要能源，是劇場碳足跡的主要來源。", en: "In many regions, the traditional grid relies on coal and natural gas, a major source of a theater's carbon footprint." } },
+                    { text: { zh: "綠色能源供應商", en: "Green Energy Supplier" }, budgetImpact: -1000, satisfactionImpact: 5, sustainabilityImpact: 20, feedback: { zh: "轉換到綠色能源供應商增加了成本，但大幅減少了碳排放。", en: "Switching to a green energy supplier increases costs but significantly reduces carbon emissions." }, tip: { zh: "選擇100%可再生能源供應商可以立即減少劇場高達 40% 的碳足跡。", en: "Choosing a 100% renewable energy supplier can instantly reduce a theater's carbon footprint by up to 40%." } },
+                    { text: { zh: "安裝太陽能板", en: "Install Solar Panels" }, budgetImpact: -3000, satisfactionImpact: 10, sustainabilityImpact: 30, feedback: { zh: "太陽能板初期投資大，但長期節省能源成本，並成為永續形象的象徵。", en: "Solar panels require a large initial investment but save energy costs long-term and symbolize sustainability." }, tip: { zh: "Theatre Green Book 建議劇場考慮自行發電，不僅減少碳排放，還能在能源危機時保持運營。", en: "The Theatre Green Book suggests theaters consider self-generation, reducing emissions and ensuring operation during energy crises." } }
+                ]
+            },
+            {
+                id: 9,
+                title: { zh: "永續營運：廢棄物管理", en: "Sustainable Operations: Waste Management" },
+                description: { zh: "劇場每天產生大量廢棄物，你會如何管理？", en: "The theater generates significant waste daily. How will you manage it?" },
+                image: "waste",
+                choices: [
+                    { text: { zh: "單一垃圾桶收集", en: "Single Bin Collection" }, budgetImpact: -200, satisfactionImpact: -5, sustainabilityImpact: -15, feedback: { zh: "單一垃圾桶方便但大部分廢棄物最終進入垃圾填埋場。", en: "A single bin is convenient, but most waste ends up in landfills." }, tip: { zh: "劇場的廢棄物中，高達 70% 是可回收或可堆肥的，混合收集會失去這些資源。", en: "Up to 70% of theater waste is recyclable or compostable; mixed collection wastes these resources." } },
+                    { text: { zh: "分類回收系統", en: "Sorted Recycling System" }, budgetImpact: -500, satisfactionImpact: 5, sustainabilityImpact: 15, feedback: { zh: "分類回收系統幫助回收了大部分可回收物，觀眾反應積極。", en: "A sorted recycling system recovers most recyclables, and audiences respond positively." }, tip: { zh: "清晰的分類指引和策略性的垃圾桶放置可以提高回收率高達 60%。", en: "Clear sorting guides and strategic bin placement can boost recycling rates by up to 60%." } },
+                    { text: { zh: "零廢棄目標計劃", en: "Zero Waste Goal Plan" }, budgetImpact: -1000, satisfactionImpact: 10, sustainabilityImpact: 25, feedback: { zh: "零廢棄計劃大幅減少了垃圾堆填量，成為劇場亮點特色。", en: "A zero-waste plan drastically reduces landfill waste, becoming a theater highlight." }, tip: { zh: "Theatre Green Book 建議劇場採用「拒絕、減少、重用、回收、堆肥」的廢棄物層級管理原則。", en: "The Theatre Green Book recommends theaters adopt the 'refuse, reduce, reuse, recycle, compost' waste hierarchy." } }
+                ]
+            },
+            {
+                id: 10,
+                title: { zh: "永續整合：劇場未來規劃", en: "Sustainable Integration: Theater Future Planning" },
+                description: { zh: "作為劇場經理，你需要制定未來五年的永續發展計劃，你會選擇哪種方向？", en: "As theater manager, you need to set a five-year sustainability plan. Which direction will you choose?" },
+                image: "planning",
+                choices: [
+                    { text: { zh: "漸進式改善", en: "Gradual Improvement" }, budgetImpact: -1000, satisfactionImpact: 5, sustainabilityImpact: 10, feedback: { zh: "漸進式改善平衡了成本和環保需求，穩步提升永續表現。", en: "Gradual improvement balances cost and environmental needs, steadily enhancing sustainability." }, tip: { zh: "Theatre Green Book 建議設定明確的短期、中期和長期目標，循序漸進實現永續轉型。", en: "The Theatre Green Book suggests setting clear short-, medium-, and long-term goals for a gradual sustainability transition." } },
+                    { text: { zh: "全面綠色認證", en: "Full Green Certification" }, budgetImpact: -3000, satisfactionImpact: 15, sustainabilityImpact: 25, feedback: { zh: "追求綠色認證需要大量投資，但提升了劇場聲譽和長期競爭力。", en: "Pursuing green certification requires significant investment but boosts reputation and long-term competitiveness." }, tip: { zh: "國際綠色認證不僅是對永續努力的肯定，還能吸引更多環保意識強的觀眾和贊助商。", en: "International green certification validates sustainability efforts and attracts eco-conscious audiences and sponsors." } },
+                    { text: { zh: "社區永續中心", en: "Community Sustainability Hub" }, budgetImpact: -2000, satisfactionImpact: 20, sustainabilityImpact: 30, feedback: { zh: "將劇場發展為社區永續中心，成為教育和實踐的平台，影響更廣泛。", en: "Developing the theater into a community sustainability hub creates an educational and practical platform with broader impact." }, tip: { zh: "Theatre Green Book 強調劇場不僅應自身永續，還應成為社區變革的催化劑，擴大影響力。", en: "The Theatre Green Book emphasizes that theaters should not only be sustainable but also act as catalysts for community change, amplifying impact." } }
+                ]
             }
-        ]
-    },
-    {
-        id: 2,
-        title: "永續建築：照明系統升級",
-        description: "劇場的照明系統老舊耗電，是時候考慮升級了。你會如何選擇？",
-        image: "lighting",
-        choices: [
-            {
-                text: "維持現有系統",
-                budgetImpact: -200,
-                satisfactionImpact: -5,
-                sustainabilityImpact: -5,
-                feedback: "維持老舊系統節省了短期成本，但能源消耗高，且燈光效果不佳。",
-                tip: "傳統劇場照明可能消耗劇場總能源的 30-40%，是減碳的重要目標。"
-            },
-            {
-                text: "部分更換為 LED 燈具",
-                budgetImpact: -1000,
-                satisfactionImpact: 5,
-                sustainabilityImpact: 10,
-                feedback: "部分更換為 LED 燈具平衡了成本和環保需求，觀眾注意到了更好的燈光效果。",
-                tip: "LED 燈具比傳統燈具節能 70-80%，且壽命更長，長期來看更經濟。"
-            },
-            {
-                text: "全面升級為智能 LED 系統",
-                budgetImpact: -2500,
-                satisfactionImpact: 10,
-                sustainabilityImpact: 20,
-                feedback: "全面升級為智能 LED 系統初期投資大，但大幅提升了能源效率和觀眾體驗。",
-                tip: "Theatre Green Book 建議，智能照明系統不僅節能，還能通過自動調節減少不必要的能源消耗。"
-            }
-        ]
-    },
-    {
-        id: 3,
-        title: "永續營運：觀眾節目單",
-        description: "每場演出都需要提供節目單，你會選擇哪種方式？",
-        image: "program",
-        choices: [
-            {
-                text: "傳統紙質節目單",
-                budgetImpact: -500,
-                satisfactionImpact: 5,
-                sustainabilityImpact: -10,
-                feedback: "紙質節目單受到部分觀眾歡迎，但造成了大量紙張浪費。",
-                tip: "一個中型劇場一年可能使用超過 10,000 份紙質節目單，大部分演出後即被丟棄。"
-            },
-            {
-                text: "可回收紙張 + 減量印刷",
-                budgetImpact: -300,
-                satisfactionImpact: 0,
-                sustainabilityImpact: 5,
-                feedback: "使用可回收紙張並減少印刷數量，平衡了環保和觀眾需求。",
-                tip: "Theatre Green Book 建議使用 FSC 認證紙張，並考慮「一個家庭一份」的分發策略。"
-            },
-            {
-                text: "數位節目單 + QR 碼",
-                budgetImpact: -100,
-                satisfactionImpact: -5,
-                sustainabilityImpact: 15,
-                feedback: "數位節目單大幅減少了紙張使用，但部分年長觀眾不太適應。",
-                tip: "數位節目單不僅環保，還能提供更豐富的內容，如演員介紹視頻、互動元素等。"
-            }
-        ]
-    },
-    {
-        id: 4,
-        title: "永續製作：服裝選擇",
-        description: "新劇目需要服裝設計，你會如何指導服裝部門？",
-        image: "costume",
-        choices: [
-            {
-                text: "全新定制服裝",
-                budgetImpact: -1500,
-                satisfactionImpact: 10,
-                sustainabilityImpact: -10,
-                feedback: "全新定制服裝視覺效果極佳，但消耗了大量資源。",
-                tip: "時尚產業是全球第二大污染產業，劇場服裝的可持續性對環境有重要影響。"
-            },
-            {
-                text: "改造現有庫存服裝",
-                budgetImpact: -500,
-                satisfactionImpact: 0,
-                sustainabilityImpact: 10,
-                feedback: "改造現有服裝節省了資源，創意設計彌補了視覺上的差異。",
-                tip: "Theatre Green Book 建議建立服裝庫存共享系統，最大化服裝的使用壽命。"
-            },
-            {
-                text: "二手店採購 + 少量定制",
-                budgetImpact: -800,
-                satisfactionImpact: 5,
-                sustainabilityImpact: 5,
-                feedback: "結合二手採購和少量定制，既環保又保證了視覺效果。",
-                tip: "混合採購策略可以減少高達 75% 的服裝碳足跡，同時保持藝術品質。"
-            }
-        ]
-    },
-    {
-        id: 5,
-        title: "永續建築：空調系統管理",
-        description: "夏季到來，劇場空調使用量大增，你會如何管理？",
-        image: "hvac",
-        choices: [
-            {
-                text: "全天開啟空調",
-                budgetImpact: -1000,
-                satisfactionImpact: 10,
-                sustainabilityImpact: -15,
-                feedback: "全天開啟空調讓觀眾感到舒適，但能源消耗巨大。",
-                tip: "空調系統可能佔劇場能源消耗的 40-50%，是節能的重要目標。"
-            },
-            {
-                text: "智能溫控系統",
-                budgetImpact: -2000,
-                satisfactionImpact: 5,
-                sustainabilityImpact: 20,
-                feedback: "安裝智能溫控系統初期投資較大，但長期節省能源並維持舒適度。",
-                tip: "智能溫控可以根據觀眾人數和室外溫度自動調節，比固定溫度設定節能 20-30%。"
-            },
-            {
-                text: "自然通風 + 高效風扇",
-                budgetImpact: -500,
-                satisfactionImpact: -5,
-                sustainabilityImpact: 25,
-                feedback: "結合自然通風和高效風扇大幅減少能源使用，但在極端天氣可能影響舒適度。",
-                tip: "Theatre Green Book 建議優先考慮被動式降溫策略，如遮陽、自然通風等，再輔以高效設備。"
-            }
-        ]
-    },
-    {
-        id: 6,
-        title: "永續營運：餐飲服務",
-        description: "劇場休息時間提供餐飲服務，你會如何規劃？",
-        image: "catering",
-        choices: [
-            {
-                text: "一次性餐具 + 進口食品",
-                budgetImpact: -800,
-                satisfactionImpact: 5,
-                sustainabilityImpact: -15,
-                feedback: "一次性餐具方便但產生大量垃圾，進口食品碳足跡高。",
-                tip: "一次性塑料餐具可能需要數百年才能分解，是劇場常見的環境問題。"
-            },
-            {
-                text: "可堆肥餐具 + 當地食材",
-                budgetImpact: -1000,
-                satisfactionImpact: 10,
-                sustainabilityImpact: 15,
-                feedback: "可堆肥餐具和當地食材減少了環境影響，觀眾對品質印象良好。",
-                tip: "當地採購可以減少食物里程，降低碳排放高達 70%，同時支持當地經濟。"
-            },
-            {
-                text: "可重複使用餐具 + 素食選項",
-                budgetImpact: -1200,
-                satisfactionImpact: 0,
-                sustainabilityImpact: 25,
-                feedback: "可重複使用餐具初期成本高但長期節省，素食選項大幅減少碳足跡。",
-                tip: "Theatre Green Book 建議提供至少 50% 的植物性食品選項，可減少高達 60% 的餐飲碳足跡。"
-            }
-        ]
-    },
-    {
-        id: 7,
-        title: "永續製作：特效選擇",
-        description: "新劇目需要一些特效元素，你會選擇哪種方案？",
-        image: "effects",
-        choices: [
-            {
-                text: "傳統煙霧和火焰效果",
-                budgetImpact: -1000,
-                satisfactionImpact: 15,
-                sustainabilityImpact: -20,
-                feedback: "傳統特效視覺衝擊力強，但使用了有害化學物質和高能耗設備。",
-                tip: "傳統煙霧機使用的液體可能含有對環境有害的化學物質，且消耗大量能源。"
-            },
-            {
-                text: "LED 燈光 + 投影效果",
-                budgetImpact: -1500,
-                satisfactionImpact: 10,
-                sustainabilityImpact: 15,
-                feedback: "數位特效減少了物理資源消耗，同時提供了豐富的視覺體驗。",
-                tip: "數位投影不僅環保，還能創造傳統特效難以實現的複雜視覺效果。"
-            },
-            {
-                text: "機械裝置 + 簡約設計",
-                budgetImpact: -800,
-                satisfactionImpact: 5,
-                sustainabilityImpact: 10,
-                feedback: "機械裝置和簡約設計減少了能源消耗，依靠創意彌補視覺效果。",
-                tip: "Theatre Green Book 鼓勵「少即是多」的設計理念，通過創意而非資源消耗來實現藝術效果。"
-            }
-        ]
-    },
-    {
-        id: 8,
-        title: "永續建築：能源來源",
-        description: "劇場需要選擇能源供應商，你會如何決策？",
-        image: "energy",
-        choices: [
-            {
-                text: "傳統電網供電",
-                budgetImpact: -500,
-                satisfactionImpact: 0,
-                sustainabilityImpact: -10,
-                feedback: "傳統電網成本較低，但主要依賴化石燃料，碳排放高。",
-                tip: "傳統電網在許多地區仍以煤炭和天然氣為主要能源，是劇場碳足跡的主要來源。"
-            },
-            {
-                text: "綠色能源供應商",
-                budgetImpact: -1000,
-                satisfactionImpact: 5,
-                sustainabilityImpact: 20,
-                feedback: "轉換到綠色能源供應商增加了成本，但大幅減少了碳排放。",
-                tip: "選擇100%可再生能源供應商可以立即減少劇場高達 40% 的碳足跡。"
-            },
-            {
-                text: "安裝太陽能板",
-                budgetImpact: -3000,
-                satisfactionImpact: 10,
-                sustainabilityImpact: 30,
-                feedback: "太陽能板初期投資大，但長期節省能源成本，並成為永續形象的象徵。",
-                tip: "Theatre Green Book 建議劇場考慮自行發電，不僅減少碳排放，還能在能源危機時保持運營。"
-            }
-        ]
-    },
-    {
-        id: 9,
-        title: "永續營運：廢棄物管理",
-        description: "劇場每天產生大量廢棄物，你會如何管理？",
-        image: "waste",
-        choices: [
-            {
-                text: "單一垃圾桶收集",
-                budgetImpact: -200,
-                satisfactionImpact: -5,
-                sustainabilityImpact: -15,
-                feedback: "單一垃圾桶方便但大部分廢棄物最終進入垃圾填埋場。",
-                tip: "劇場的廢棄物中，高達 70% 是可回收或可堆肥的，混合收集會失去這些資源。"
-            },
-            {
-                text: "分類回收系統",
-                budgetImpact: -500,
-                satisfactionImpact: 5,
-                sustainabilityImpact: 15,
-                feedback: "分類回收系統幫助回收了大部分可回收物，觀眾反應積極。",
-                tip: "清晰的分類指引和策略性的垃圾桶放置可以提高回收率高達 60%。"
-            },
-            {
-                text: "零廢棄目標計劃",
-                budgetImpact: -1000,
-                satisfactionImpact: 10,
-                sustainabilityImpact: 25,
-                feedback: "零廢棄計劃大幅減少了垃圾堆填量，成為劇場亮點特色。",
-                tip: "Theatre Green Book 建議劇場採用「拒絕、減少、重用、回收、堆肥」的廢棄物層級管理原則。"
-            }
-        ]
-    },
-    {
-        id: 10,
-        title: "永續整合：劇場未來規劃",
-        description: "作為劇場經理，你需要制定未來五年的永續發展計劃，你會選擇哪種方向？",
-        image: "planning",
-        choices: [
-            {
-                text: "漸進式改善",
-                budgetImpact: -1000,
-                satisfactionImpact: 5,
-                sustainabilityImpact: 10,
-                feedback: "漸進式改善平衡了成本和環保需求，穩步提升永續表現。",
-                tip: "Theatre Green Book 建議設定明確的短期、中期和長期目標，循序漸進實現永續轉型。"
-            },
-            {
-                text: "全面綠色認證",
-                budgetImpact: -3000,
-                satisfactionImpact: 15,
-                sustainabilityImpact: 25,
-                feedback: "追求綠色認證需要大量投資，但提升了劇場聲譽和長期競爭力。",
-                tip: "國際綠色認證不僅是對永續努力的肯定，還能吸引更多環保意識強的觀眾和贊助商。"
-            },
-            {
-                text: "社區永續中心",
-                budgetImpact: -2000,
-                satisfactionImpact: 20,
-                sustainabilityImpact: 30,
-                feedback: "將劇場發展為社區永續中心，成為教育和實踐的平台，影響更廣泛。",
-                tip: "Theatre Green Book 強調劇場不僅應自身永續，還應成為社區變革的催化劑，擴大影響力。"
-            }
-        ]
-    }
-];
-
-        const bankruptcyReasons = [
-            "你在劇場啟動階段就耗盡了資金。永續轉型需要穩健的財務規劃，確保每一步都在預算範圍內。",
-            "照明系統升級耗盡了你的預算。雖然節能設備是好投資，但需要分階段實施，確保現金流穩定。",
-            "即使是小決策也會累積影響。下次嘗試在每個環節都更加注重成本效益。",
-            "服裝製作成本超出預期，導致資金短缺。考慮更多創意和低成本的解決方案。",
-            "空調系統的投資過大，導致資金鏈斷裂。永續轉型需要平衡短期投資和長期收益。",
-            "餐飲服務的改革耗費了過多資金。下次可以考慮逐步改進，而非一次性大改革。",
-            "特效製作耗盡了預算。記住，有時簡約的創意解決方案比昂貴的技術更有效。",
-            "能源系統的大規模投資導致破產。可再生能源是長期投資，需要穩健的財務計劃支持。",
-            "廢棄物管理系統的實施成本超出預期。下次嘗試從小規模開始，逐步擴大。",
-            "你的長期規劃過於雄心勃勃，超出了劇場的財務能力。永續發展需要平衡理想和現實。"
         ];
+
+        const bankruptcyReasons = {
+            zh: [
+                "你在劇場啟動階段就耗盡了資金。永續轉型需要穩健的財務規劃，確保每一步都在預算範圍內。",
+                "照明系統升級耗盡了你的預算。雖然節能設備是好投資，但需要分階段實施，確保現金流穩定。",
+                "即使是小決策也會累積影響。下次嘗試在每個環節都更加注重成本效益。",
+                "服裝製作成本超出預期，導致資金短缺。考慮更多創意和低成本的解決方案。",
+                "空調系統的投資過大，導致資金鏈斷裂。永續轉型需要平衡短期投資和長期收益。",
+                "餐飲服務的改革耗費了過多資金。下次可以考慮逐步改進，而非一次性大改革。",
+                "特效製作耗盡了預算。記住，有時簡約的創意解決方案比昂貴的技術更有效。",
+                "能源系統的大規模投資導致破產。可再生能源是長期投資，需要穩健的財務計劃支持。",
+                "廢棄物管理系統的實施成本超出預期。下次嘗試從小規模開始，逐步擴大。",
+                "你的長期規劃過於雄心勃勃，超出了劇場的財務能力。永續發展需要平衡理想和現實。"
+            ],
+            en: [
+                "You exhausted your funds during the theater's startup phase. Sustainable transformation requires solid financial planning to stay within budget.",
+                "The lighting system upgrade drained your budget. While energy-saving equipment is a good investment, it needs phased implementation to maintain cash flow.",
+                "Even small decisions can accumulate impact. Next time, focus more on cost-effectiveness at every step.",
+                "Costume production costs exceeded expectations, leading to a cash shortage. Consider more creative, low-cost solutions.",
+                "The HVAC system investment was too large, breaking the budget. Sustainable transformation requires balancing short-term costs and long-term gains.",
+                "Catering service reforms consumed too much funding. Consider gradual improvements instead of a one-time overhaul next time.",
+                "Special effects production depleted your budget. Remember, sometimes simple, creative solutions outperform expensive tech.",
+                "Large-scale energy system investments led to bankruptcy. Renewable energy is a long-term investment needing robust financial backing.",
+                "Waste management system costs exceeded expectations. Start small and scale up gradually next time.",
+                "Your long-term planning was overly ambitious, exceeding the theater's financial capacity. Sustainability requires balancing ideals with reality."
+            ]
+        };
 
         const endings = {
             best: {
-                title: "永續劇場大師",
-                description: "恭喜你！你的劇場達到了最高的永續標準，成為全球典範！觀眾和環境都對你的成就感到滿意。",
-                suggestion: "你已經達到了最佳結局！試試看是否能以更高的預算完成遊戲？"
+                title: { zh: "永續劇場大師", en: "Sustainable Theater Master" },
+                description: { zh: "恭喜你！你的劇場達到了最高的永續標準，成為全球典範！觀眾和環境都對你的成就感到滿意。", en: "Congratulations! Your theater has achieved the highest sustainability standards, becoming a global model! Both audience and environment are pleased with your success." },
+                suggestion: { zh: "你已經達到了最佳結局！試試看是否能以更高的預算完成遊戲？", en: "You've reached the best ending! Can you complete the game with an even higher budget?" }
             },
             good: {
-                title: "永續先驅",
-                description: "你的劇場在永續方面表現出色，觀眾也很滿意。繼續努力，你將成為永續劇場的領袖！",
-                suggestion: "你離最佳結局不遠了！試著在預算管理上更精打細算，或許能達到100%的滿意度和永續指數。"
+                title: { zh: "永續先驅", en: "Sustainability Pioneer" },
+                description: { zh: "你的劇場在永續方面表現出色，觀眾也很滿意。繼續努力，你將成為永續劇場的領袖！", en: "Your theater excels in sustainability, and the audience is satisfied. Keep it up to become a leader in sustainable theater!" },
+                suggestion: { zh: "你離最佳結局不遠了！試著在預算管理上更精打細算，或許能達到100%的滿意度和永續指數。", en: "You're close to the best ending! Refine your budget management to aim for 100% satisfaction and sustainability." }
             },
             normal: {
-                title: "綠色管理者",
-                description: "你的劇場在永續方面取得了一定的進展，觀眾也基本滿意。還有改進的空間！",
-                suggestion: "你的表現不錯，但還可以更好。試著在選擇時更注重永續性和觀眾體驗的平衡。"
+                title: { zh: "綠色管理者", en: "Green Manager" },
+                description: { zh: "你的劇場在永續方面取得了一定的進展，觀眾也基本滿意。還有改進的空間！", en: "Your theater has made some progress in sustainability, and the audience is generally satisfied. There's room for improvement!" },
+                suggestion: { zh: "你的表現不錯，但還可以更好。試著在選擇時更注重永續性和觀眾體驗的平衡。", en: "You did well, but you can do better. Focus on balancing sustainability and audience experience in your choices." }
             },
             failure: {
-                title: "永續新手",
-                description: "你的劇場未能達到永續發展的標準，觀眾也不太滿意。不要灰心，再試一次吧！",
-                suggestion: "你的劇場需要更多的永續實踐。試著選擇更環保的選項，並注意觀眾的需求。"
+                title: { zh: "永續新手", en: "Sustainability Novice" },
+                description: { zh: "你的劇場未能達到永續發展的標準，觀眾也不太滿意。不要灰心，再試一次吧！", en: "Your theater didn't meet sustainability standards, and the audience isn't satisfied. Don't give up—try again!" },
+                suggestion: { zh: "你的劇場需要更多的永續實踐。試著選擇更環保的選項，並注意觀眾的需求。", en: "Your theater needs more sustainable practices. Opt for greener choices and pay attention to audience needs." }
             }
         };
 
@@ -792,6 +682,55 @@
         const failureSatisfaction = document.getElementById('failure-satisfaction');
         const failureSustainability = document.getElementById('failure-sustainability');
 
+        function updateText(language) {
+            document.getElementById('start-title').textContent = textContent[language].startTitle;
+            document.getElementById('start-description').textContent = textContent[language].startDescription;
+            document.getElementById('feature1-title').textContent = textContent[language].feature1Title;
+            document.getElementById('feature1-desc').textContent = textContent[language].feature1Desc;
+            document.getElementById('feature2-title').textContent = textContent[language].feature2Title;
+            document.getElementById('feature2-desc').textContent = textContent[language].feature2Desc;
+            document.getElementById('feature3-title').textContent = textContent[language].feature3Title;
+            document.getElementById('feature3-desc').textContent = textContent[language].feature3Desc;
+            document.getElementById('start-btn').textContent = textContent[language].startButton;
+            document.getElementById('header-title').textContent = textContent[language].headerTitle;
+            document.getElementById('budget-label').textContent = textContent[language].budgetLabel;
+            document.getElementById('satisfaction-label').textContent = textContent[language].satisfactionLabel;
+            document.getElementById('level-label').textContent = textContent[language].levelLabel;
+            document.getElementById('satisfaction-progress-label').textContent = textContent[language].satisfactionProgressLabel;
+            document.getElementById('sustainability-progress-label').textContent = textContent[language].sustainabilityProgressLabel;
+            document.getElementById('feedback-title').textContent = textContent[language].feedbackTitle;
+            document.getElementById('budget-impact-label').textContent = textContent[language].budgetImpactLabel;
+            document.getElementById('satisfaction-impact-label').textContent = textContent[language].satisfactionImpactLabel;
+            document.getElementById('sustainability-impact-label').textContent = textContent[language].sustainabilityImpactLabel;
+            document.getElementById('tip-title').textContent = textContent[language].tipTitle;
+            document.getElementById('next-btn').textContent = textContent[language].nextButton;
+            document.getElementById('results-title').textContent = textContent[language].resultsTitle;
+            document.getElementById('results-description').textContent = textContent[language].resultsDescription;
+            document.getElementById('final-budget-label').textContent = textContent[language].finalBudgetLabel;
+            document.getElementById('final-satisfaction-label').textContent = textContent[language].finalSatisfactionLabel;
+            document.getElementById('final-sustainability-label').textContent = textContent[language].finalSustainabilityLabel;
+            document.getElementById('environmental-impact-label').textContent = textContent[language].environmentalImpactLabel;
+            document.getElementById('restart-btn').textContent = textContent[language].restartButton;
+            document.getElementById('failure-title').textContent = textContent[language].failureTitle;
+            document.getElementById('failure-description').textContent = textContent[language].failureDescription;
+            document.getElementById('failure-budget-label').textContent = textContent[language].failureBudgetLabel;
+            document.getElementById('failure-satisfaction-label').textContent = textContent[language].failureSatisfactionLabel;
+            document.getElementById('failure-sustainability-label').textContent = textContent[language].failureSustainabilityLabel;
+            document.getElementById('restart-from-failure-btn').textContent = textContent[language].restartFromFailureButton;
+        }
+
+        document.getElementById('lang-zh').addEventListener('click', () => {
+            currentLanguage = 'zh';
+            updateText(currentLanguage);
+            loadScenario(gameState.currentLevel);
+        });
+
+        document.getElementById('lang-en').addEventListener('click', () => {
+            currentLanguage = 'en';
+            updateText(currentLanguage);
+            loadScenario(gameState.currentLevel);
+        });
+
         startBtn.addEventListener('click', () => {
             startScreen.classList.add('hidden');
             gameScreen.classList.remove('hidden');
@@ -801,7 +740,6 @@
 
         nextBtn.addEventListener('click', () => {
             feedbackContainer.classList.add('hidden');
-            
             if (gameState.currentLevel < gameState.maxLevels) {
                 gameState.currentLevel++;
                 loadScenario(gameState.currentLevel);
@@ -839,9 +777,9 @@
             const scenario = scenarios.find(s => s.id === level) || scenarios[0];
             gameState.currentScenario = scenario;
             
-            scenarioTitle.textContent = scenario.title;
-            scenarioDescription.textContent = scenario.description;
-            levelDisplay.textContent = `第 ${level} 關 / ${gameState.maxLevels} 關`;
+            scenarioTitle.textContent = scenario.title[currentLanguage];
+            scenarioDescription.textContent = scenario.description[currentLanguage];
+            levelDisplay.textContent = currentLanguage === 'zh' ? `第 ${level} 關 / ${gameState.maxLevels} 關` : `Level ${level} / ${gameState.maxLevels}`;
             scenarioImage.className = `w-full md:w-1/3 h-48 rounded-lg shadow-md ${scenario.image}-bg`;
             
             choicesContainer.innerHTML = '';
@@ -854,7 +792,7 @@
                 }
                 
                 choiceCard.innerHTML = `
-                    <h3 class="font-bold text-lg mb-2">${choice.text}</h3>
+                    <h3 class="font-bold text-lg mb-2">${choice.text[currentLanguage]}</h3>
                     <div class="flex flex-wrap gap-2 text-sm">
                         <span class="px-2 py-1 rounded-full ${choice.budgetImpact > 0 ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'} ${wouldCauseBankruptcy ? 'budget-warning' : ''}">
                             💰 ${choice.budgetImpact > 0 ? '+' : ''}${choice.budgetImpact}
@@ -866,7 +804,7 @@
                             🌱 ${choice.sustainabilityImpact > 0 ? '+' : ''}${choice.sustainabilityImpact}%
                         </span>
                     </div>
-                    ${wouldCauseBankruptcy ? '<p class="text-red-500 mt-2 font-bold">⚠️ 警告：此選擇將導致破產！</p>' : ''}
+                    ${wouldCauseBankruptcy ? `<p class="text-red-500 mt-2 font-bold">⚠️ ${currentLanguage === 'zh' ? '警告：此選擇將導致破產！' : 'Warning: This choice will cause bankruptcy!'}</p>` : ''}
                 `;
                 
                 choiceCard.addEventListener('click', () => makeChoice(index));
@@ -891,11 +829,11 @@
                 return;
             }
             
-            feedbackText.textContent = choice.feedback;
+            feedbackText.textContent = choice.feedback[currentLanguage];
             budgetImpact.textContent = `${choice.budgetImpact > 0 ? '+' : ''}$${choice.budgetImpact}`;
             satisfactionImpact.textContent = `${choice.satisfactionImpact > 0 ? '+' : ''}${choice.satisfactionImpact}%`;
             sustainabilityImpact.textContent = `${choice.sustainabilityImpact > 0 ? '+' : ''}${choice.sustainabilityImpact}%`;
-            sustainabilityTip.textContent = choice.tip;
+            sustainabilityTip.textContent = choice.tip[currentLanguage];
             
             feedbackContainer.classList.remove('hidden');
             setTimeout(() => feedbackContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
@@ -912,7 +850,11 @@
         }
 
         function checkWinCondition() {
-            showResults();
+            if (gameState.satisfaction < gameState.minSatisfaction || gameState.sustainabilityIndex < gameState.minSustainabilityIndex) {
+                showGameOver();
+            } else {
+                showResults();
+            }
         }
 
         function showResults() {
@@ -920,9 +862,9 @@
             resultsScreen.classList.remove('hidden');
             
             let endingType;
-            if (gameState.satisfaction === 100 && gameState.sustainabilityIndex === 100) {
+            if (gameState.satisfaction >= 90 && gameState.sustainabilityIndex >= 90) {
                 endingType = 'best';
-            } else if (gameState.satisfaction >= 80 && gameState.sustainabilityIndex >= 80) {
+            } else if (gameState.satisfaction >= 75 && gameState.sustainabilityIndex >= 75) {
                 endingType = 'good';
             } else if (gameState.satisfaction >= 50 && gameState.sustainabilityIndex >= 50) {
                 endingType = 'normal';
@@ -932,28 +874,28 @@
             
             const ending = endings[endingType];
             
-            const titleElement = document.querySelector('#results-screen h2');
+            const titleElement = document.getElementById('results-title');
             if (endingType === 'failure') {
                 titleElement.classList.remove('text-green-400');
                 titleElement.classList.add('text-red-500');
-                titleElement.textContent = '遊戲失敗！';
+                titleElement.textContent = textContent[currentLanguage].failureTitle;
             } else {
                 titleElement.classList.remove('text-red-500');
                 titleElement.classList.add('text-green-400');
-                titleElement.textContent = '遊戲結束！';
+                titleElement.textContent = textContent[currentLanguage].resultsTitle;
             }
             
-            finalTitle.textContent = ending.title;
-            finalDescription.textContent = ending.description;
+            finalTitle.textContent = ending.title[currentLanguage];
+            finalDescription.textContent = ending.description[currentLanguage];
             finalBudget.textContent = `$${gameState.budget}`;
             finalSatisfaction.textContent = `${gameState.satisfaction}%`;
             finalSustainability.textContent = `${gameState.sustainabilityIndex}%`;
             
-            suggestionContainer.innerHTML = `<p class="text-lg">${ending.suggestion}</p>`;
+            suggestionContainer.innerHTML = `<p class="text-lg">${ending.suggestion[currentLanguage]}</p>`;
             
             const carbonReduction = Math.round(gameState.sustainabilityIndex / 10);
             const treesPlanted = Math.round(gameState.sustainabilityIndex / 2.5);
-            environmentalImpact.textContent = `你的決策幫助減少了約 ${carbonReduction} 噸的碳排放，相當於種植了 ${treesPlanted} 棵樹！`;
+            environmentalImpact.textContent = currentLanguage === 'zh' ? `你的決策幫助減少了約 ${carbonReduction} 噸的碳排放，相當於種植了 ${treesPlanted} 棵樹！` : `Your decisions helped reduce approximately ${carbonReduction} tons of carbon emissions, equivalent to planting ${treesPlanted} trees!`;
             
             if (endingType === 'best') {
                 createConfetti();
@@ -965,7 +907,8 @@
             gameScreen.classList.add('hidden');
             failureScreen.classList.remove('hidden');
             
-            failureReason.textContent = `失敗原因：劇場破產 - ${bankruptcyReasons[Math.min(gameState.currentLevel - 1, bankruptcyReasons.length - 1)]}`;
+            const reasonIndex = Math.min(gameState.currentLevel - 1, bankruptcyReasons[currentLanguage].length - 1);
+            failureReason.textContent = currentLanguage === 'zh' ? `失敗原因：劇場破產 - ${bankruptcyReasons[currentLanguage][reasonIndex]}` : `Failure Reason: Theater Bankruptcy - ${bankruptcyReasons[currentLanguage][reasonIndex]}`;
             failureBudget.textContent = `$${gameState.budget}`;
             failureSatisfaction.textContent = `${gameState.satisfaction}%`;
             failureSustainability.textContent = `${gameState.sustainabilityIndex}%`;
@@ -1003,6 +946,7 @@
             }
         }
 
+        updateText(currentLanguage);
         loadScenario(gameState.currentLevel);
         updateDisplays();
     </script>
