@@ -1,954 +1,488 @@
-<html lang="zh-TW">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>綠色劇場經理 | Green Theater Manager</title>
+    <title>Sustainability Resources</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
-        
         body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background-color: #0a1f1c;
-            color: #e0e0e0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a5d1a, #4caf50);
             min-height: 100vh;
-            overflow-x: hidden;
         }
-
-        .logo {
+        .link-button {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .link-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Button container - default for mobile */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem; /* Increased gap for mobile */
+            margin-bottom: 2rem;
+        }
+        
+        /* Mobile-specific button styles */
+        @media (max-width: 767px) {
+            .link-button {
+                padding: 1rem 1.25rem;
+            }
+            
+            .button-content {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            .button-icon {
+                margin-right: 1rem;
+                flex-shrink: 0;
+            }
+            
+            .button-text-container {
+                text-align: left;
+            }
+            
+            .button-description {
+                font-size: 0.8rem;
+                opacity: 0.9;
+            }
+        }
+        
+        /* Enhanced button styles for larger screens */
+        @media (min-width: 768px) {
+            .link-button {
+                font-size: 1.1rem;
+                padding: 1rem 1.5rem;
+            }
+            
+            .link-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: 0.5s;
+            }
+            
+            .link-button:hover::before {
+                left: 100%;
+            }
+        }
+        
+        /* For larger screens, make buttons side by side */
+        @media (min-width: 1024px) {
+            .button-container {
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 1rem;
+            }
+            
+            .button-container .link-button {
+                width: 48%;
+            }
+            
+            .button-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 0.5rem 0;
+            }
+            
+            .button-icon {
+                font-size: 2rem;
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+            
+            .button-text {
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+            
+            .button-description {
+                font-size: 0.85rem;
+                opacity: 0.9;
+                margin-top: 0.25rem;
+            }
+        }
+        
+        .embed-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        .code-modal {
+            display: none;
             position: fixed;
-            bottom: 10px; /* Positioned at the bottom */
-            right: 10px;  /* Positioned at the right */
-            width: 100px; /* Adjustable size */
-            z-index: 1000; /* Stays above other elements */
-        }
-
-        .theater-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect width='800' height='600' fill='%23111827'/%3E%3Cpath d='M400 100 L700 400 L700 500 L100 500 L100 400 Z' fill='%23374151'/%3E%3Cpath d='M250 500 L250 550 L550 550 L550 500 Z' fill='%234B5563'/%3E%3Cpath d='M300 100 L500 100 L500 200 L300 200 Z' fill='%236B7280'/%3E%3Cpath d='M150 400 L650 400 L400 200 Z' fill='%232A3342'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .stage-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Crect x='50' y='50' width='300' height='200' fill='%23374151'/%3E%3Cpath d='M100 50 L300 50 L250 150 L150 150 Z' fill='%236B7280'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .lighting-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Ccircle cx='200' cy='150' r='100' fill='%23FBBF24'/%3E%3Ccircle cx='200' cy='150' r='50' fill='%23F59E0B'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .program-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Crect x='100' y='50' width='200' height='200' fill='%23E5E7EB'/%3E%3Cpath d='M120 70 H280 M120 100 H280 M120 130 H280' stroke='%231F2937' stroke-width='10'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .costume-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Cpath d='M150 50 L250 50 L250 200 L200 250 L150 200 Z' fill='%239CA3AF'/%3E%3Ccircle cx='200' cy='50' r='20' fill='%234B5563'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .hvac-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Crect x='100' y='50' width='200' height='150' fill='%234B5563'/%3E%3Cpath d='M150 200 L150 250 L250 250 L250 200' fill='%236B7280'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .catering-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%239CA3AF'/%3E%3Crect x='180' y='130' width='40' height='40' fill='%23E5E7EB'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .effects-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Cpath d='M100 200 Q200 100 300 200' fill='none' stroke='%23FBBF24' stroke-width='20'/%3E%3Ccircle cx='200' cy='100' r='30' fill='%23F59E0B'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .energy-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Crect x='150' y='50' width='100' height='100' fill='%23FBBF24'/%3E%3Cpath d='M200 150 L200 250' stroke='%23F59E0B' stroke-width='20'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .waste-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Crect x='150' y='100' width='100' height='150' fill='%234B5563'/%3E%3Crect x='170' y='80' width='60' height='20' fill='%236B7280'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .planning-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Crect x='100' y='50' width='200' height='200' fill='%23E5E7EB'/%3E%3Cpath d='M120 70 H280 M120 100 H280 M120 130 H280' stroke='%231F2937' stroke-width='10'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .btn {
-            transition: all 0.3s ease;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .progress-bar {
-            transition: width 0.5s ease-in-out;
-        }
-        
-        .card {
-            transition: all 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .slide-in {
-            animation: slideIn 0.5s ease-out;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #f59e0b;
-            opacity: 0;
-        }
-        
-        .shake {
-            animation: shake 0.5s ease-in-out;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-        
-        .budget-warning {
-            animation: budgetWarning 1s infinite;
-        }
-        
-        @keyframes budgetWarning {
-            0%, 100% { color: #ef4444; }
-            50% { color: #ffffff; }
-        }
-        
-        .desc-image {
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 100px;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .code-content {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border-radius: 8px;
+            margin: 5% auto;
+            width: 90%;
+            max-width: 1000px;
+            padding: 20px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        .close-button {
+            color: #fff;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover {
+            color: #4caf50;
+        }
+        .leaf {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        #sourceCode {
+            white-space: pre-wrap;
+            overflow-x: auto;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #2d3748;
+        }
+        .section-heading {
+            position: relative;
+            display: inline-block;
+        }
+        .section-heading:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background-color: #4caf50;
+            bottom: -5px;
+            left: 20%;
+            border-radius: 2px;
         }
         
-        .satisfaction-progress {
-            background-color: #22c55e;
+        /* Custom responsive container */
+        .content-container {
+            width: 100%;
+            max-width: 450px; /* Default for mobile */
+            margin: 0 auto;
         }
         
-        .sustainability-progress {
-            background-color: #10b981;
+        /* Media query for larger screens */
+        @media (min-width: 768px) {
+            .content-container {
+                max-width: 700px; /* Medium screens */
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .content-container {
+                max-width: 900px; /* Large screens */
+                width: 70%; /* At least 50% as requested, but 70% looks better */
+            }
+        }
+        
+        @media (min-width: 1280px) {
+            .content-container {
+                max-width: 1100px; /* Extra large screens */
+                width: 65%;
+            }
+        }
+        
+        /* Fullscreen button styles */
+        .fullscreen-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+        
+        .fullscreen-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            transform: scale(1.05);
+        }
+        
+        /* Fullscreen iframe container */
+        .fullscreen-iframe {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 1001;
+        }
+        
+        .fullscreen-iframe iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .exit-fullscreen {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1002;
+            transition: all 0.2s ease;
+        }
+        
+        .exit-fullscreen:hover {
+            background-color: rgba(255, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+        
+        /* Button icon sizing */
+        .button-icon svg {
+            width: 2rem;
+            height: 2rem;
+        }
+        
+        @media (min-width: 1024px) {
+            .button-icon svg {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
         }
     </style>
-</head>
-<body style="margin: 0px;">
-    <!-- Logo added here -->
-    <img src="https://d329ms1y997xa5.cloudfront.net/accounts/206453/images/Library-logo_white.png" alt="Theater Logo" class="logo">
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.relative{position:relative}.mx-auto{margin-left:auto;margin-right:auto}.mb-10{margin-bottom:2.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mr-2{margin-right:0.5rem}.mt-1{margin-top:0.25rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.h-10{height:2.5rem}.h-5{height:1.25rem}.w-10{width:2.5rem}.w-5{width:1.25rem}.flex-col{flex-direction:column}.items-center{align-items:center}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border-2{border-width:2px}.border-green-500{--tw-border-opacity:1;border-color:rgb(34 197 94 / var(--tw-border-opacity, 1))}.bg-gray-800{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity, 1))}.bg-green-100{--tw-bg-opacity:1;background-color:rgb(220 252 231 / var(--tw-bg-opacity, 1))}.bg-green-600{--tw-bg-opacity:1;background-color:rgb(22 163 74 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-opacity-90{--tw-bg-opacity:0.9}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.pb-4{padding-bottom:1rem}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.text-green-400{--tw-text-opacity:1;color:rgb(74 222 128 / var(--tw-text-opacity, 1))}.text-green-600{--tw-text-opacity:1;color:rgb(22 163 74 / var(--tw-text-opacity, 1))}.text-green-800{--tw-text-opacity:1;color:rgb(22 101 52 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.opacity-70{opacity:0.7}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.ease-in-out{transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1)}.hover\:bg-gray-700:hover{--tw-bg-opacity:1;background-color:rgb(55 65 81 / var(--tw-bg-opacity, 1))}.hover\:bg-green-700:hover{--tw-bg-opacity:1;background-color:rgb(21 128 61 / var(--tw-bg-opacity, 1))}</style></head>
+<body class="p-4">
+    <!-- Background decorative elements -->
+    <div class="leaf" style="top: 10%; left: 5%; transform: rotate(20deg);">
+        <svg width="100" height="100" viewBox="0 0 24 24" fill="#ffffff">
+            <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"></path>
+        </svg>
+    </div>
+    <div class="leaf" style="top: 40%; right: 8%; transform: rotate(-15deg);">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="#ffffff">
+            <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"></path>
+        </svg>
+    </div>
+    <div class="leaf" style="bottom: 15%; left: 15%; transform: rotate(45deg);">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="#ffffff">
+            <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"></path>
+        </svg>
+    </div>
 
-    <div id="game-container" class="min-h-screen flex flex-col">
-        <div id="start-screen" class="theater-bg min-h-screen flex flex-col items-center justify-center p-4 text-center">
-            <div class="max-w-3xl bg-black bg-opacity-70 p-8 rounded-xl">
-                <h1 id="start-title" class="text-4xl md:text-5xl font-bold text-green-400 mb-4">綠色劇場經理</h1>
-                <p id="start-description" class="text-xl mb-6">成為永續劇場的先驅，實踐 Theatre Green Book 的理念！</p>
-                <div class="mb-4">
-                    <button id="lang-zh" class="mr-2 bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">中文</button>
-                    <button id="lang-en" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">English</button>
-                </div>
-                <div class="flex flex-col md:flex-row gap-4 justify-center mb-8">
-                    <div class="bg-green-900 bg-opacity-60 p-4 rounded-lg">
-                        <div id="desc-image-production" class="desc-image stage-bg"></div>
-                        <h3 id="feature1-title" class="text-lg font-bold text-green-400">永續製作</h3>
-                        <p id="feature1-desc">選擇環保的道具材料</p>
-                    </div>
-                    <div class="bg-green-900 bg-opacity-60 p-4 rounded-lg">
-                        <div id="desc-image-building" class="desc-image lighting-bg"></div>
-                        <h3 id="feature2-title" class="text-lg font-bold text-green-400">永續建築</h3>
-                        <p id="feature2-desc">升級劇場設施以節能減排</p>
-                    </div>
-                    <div class="bg-green-900 bg-opacity-60 p-4 rounded-lg">
-                        <div id="desc-image-operations" class="desc-image program-bg"></div>
-                        <h3 id="feature3-title" class="text-lg font-bold text-green-400">永續營運</h3>
-                        <p id="feature3-desc">改善日常運作減少浪費</p>
-                    </div>
-                </div>
-                <button id="start-btn" class="btn bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-8 rounded-full text-xl shadow-lg pulse">
-                    開始遊戲
-                </button>
-            </div>
-        </div>
-
-        <div id="game-screen" class="hidden min-h-screen flex flex-col">
-            <header class="bg-green-900 p-4 shadow-md sticky top-0 z-10">
-                <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
-                    <h1 id="header-title" class="text-2xl font-bold text-green-300">綠色劇場經理</h1>
-                    <div class="flex items-center space-x-6 mt-2 md:mt-0">
-                        <div class="flex items-center">
-                            <span id="budget-label">💰</span>
-                            <span id="budget" class="font-bold">$10000</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span id="satisfaction-label">😊</span>
-                            <span id="satisfaction" class="font-bold">80%</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span id="level-label">🌱</span>
-                            <span id="level-display" class="font-bold">第 1 關 / 10 關</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <div class="bg-gray-800 p-2 sticky top-[72px] z-10">
-                <div class="container mx-auto">
-                    <div class="flex items-center mb-2">
-                        <span id="satisfaction-progress-label" class="mr-2 text-sm">觀眾滿意度:</span>
-                        <div class="w-full bg-gray-700 rounded-full h-4">
-                            <div id="satisfaction-progress" class="satisfaction-progress h-4 rounded-full progress-bar" style="width: 80%"></div>
-                        </div>
-                        <span id="satisfaction-value" class="ml-2 text-sm">80%</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span id="sustainability-progress-label" class="mr-2 text-sm">永續指數:</span>
-                        <div class="w-full bg-gray-700 rounded-full h-4">
-                            <div id="sustainability-progress" class="sustainability-progress h-4 rounded-full progress-bar" style="width: 10%"></div>
-                        </div>
-                        <span id="sustainability-value" class="ml-2 text-sm">10%</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex-grow bg-gray-900 p-4">
-                <div class="container mx-auto">
-                    <div id="scenario-container" class="bg-gray-800 rounded-xl p-6 mb-6 shadow-lg slide-in">
-                        <div class="flex flex-col md:flex-row items-start gap-6">
-                            <div id="scenario-image" class="w-full md:w-1/3 h-48 rounded-lg shadow-md stage-bg"></div>
-                            <div class="w-full md:w-2/3">
-                                <h2 id="scenario-title" class="text-2xl font-bold text-green-400 mb-2">舞台設計</h2>
-                                <p id="scenario-description" class="mb-4">你的劇場即將上演第一場戲劇，需要設計舞台佈景。你會如何選擇材料？</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="choices-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    </div>
-
-                    <div id="feedback-container" class="hidden bg-green-900 bg-opacity-50 rounded-xl p-6 mb-6 shadow-lg fade-in">
-                        <h3 id="feedback-title" class="text-xl font-bold text-green-300 mb-2">選擇結果</h3>
-                        <p id="feedback-text" class="mb-4"></p>
-                        <div class="flex flex-wrap gap-4">
-                            <div class="bg-gray-800 bg-opacity-60 p-3 rounded-lg">
-                                <span id="budget-impact-label" class="font-bold text-green-400">預算影響:</span>
-                                <span id="budget-impact"></span>
-                            </div>
-                            <div class="bg-gray-800 bg-opacity-60 p-3 rounded-lg">
-                                <span id="satisfaction-impact-label" class="font-bold text-green-400">滿意度影響:</span>
-                                <span id="satisfaction-impact"></span>
-                            </div>
-                            <div class="bg-gray-800 bg-opacity-60 p-3 rounded-lg">
-                                <span id="sustainability-impact-label" class="font-bold text-green-400">永續指數影響:</span>
-                                <span id="sustainability-impact"></span>
-                            </div>
-                        </div>
-                        <div class="mt-4 p-4 bg-green-800 bg-opacity-30 rounded-lg">
-                            <h4 id="tip-title" class="font-bold text-green-300">💡 永續小知識</h4>
-                            <p id="sustainability-tip"></p>
-                        </div>
-                        <button id="next-btn" class="btn mt-4 bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded-lg">
-                            繼續
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="results-screen" class="hidden min-h-screen theater-bg flex flex-col items-center justify-center p-4">
-            <div class="max-w-3xl bg-black bg-opacity-80 p-8 rounded-xl text-center">
-                <h2 id="results-title" class="text-3xl font-bold text-green-400 mb-4">遊戲結束！</h2>
-                <p id="results-description" class="text-xl mb-6">你的劇場永續之旅已完成</p>
-                
-                <div class="mb-6">
-                    <h3 class="text-2xl font-bold text-yellow-400 mb-2">你獲得了 <span id="final-title">永續新手</span> 稱號！</h3>
-                    <p id="final-description" class="italic">你開始了解永續劇場的基本概念，但還有很長的路要走。</p>
-                    <div id="suggestion-container" class="mt-4"></div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 id="final-budget-label" class="font-bold text-green-400">最終預算</h4>
-                        <p id="final-budget" class="text-2xl">$8,500</p>
-                    </div>
-                    <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 id="final-satisfaction-label" class="font-bold text-green-400">觀眾滿意度</h4>
-                        <p id="final-satisfaction" class="text-2xl">75%</p>
-                    </div>
-                    <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 id="final-sustainability-label" class="font-bold text-green-400">永續指數</h4>
-                        <p id="final-sustainability" class="text-2xl">40%</p>
-                    </div>
-                </div>
-                
-                <div class="bg-green-900 bg-opacity-50 p-4 rounded-lg mb-6">
-                    <h4 id="environmental-impact-label" class="font-bold text-green-300 mb-2">環境影響報告</h4>
-                    <p id="environmental-impact">你的決策幫助減少了約 2.5 噸的碳排放，相當於種植了 40 棵樹！</p>
-                </div>
-                
-                <div class="flex flex-col md:flex-row gap-4 justify-center">
-                    <button id="restart-btn" class="btn bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded-lg">
-                        重新遊戲
-                    </button>
-                    <a href="https://theatregreenbook.com/" target="_blank" class="btn bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-6 rounded-lg">
-                        了解更多 Theatre Green Book
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <div id="failure-screen" class="hidden min-h-screen theater-bg flex flex-col items-center justify-center p-4">
-            <div class="max-w-3xl bg-black bg-opacity-80 p-8 rounded-xl text-center shake">
-                <h2 id="failure-title" class="text-3xl font-bold text-red-500 mb-4">任務失敗！</h2>
-                <p id="failure-description" class="text-xl mb-6">你的劇場未能達到永續發展的標準</p>
-                
-                <div class="mb-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto text-red-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    <!-- Content container with responsive width -->
+    <div class="content-container">
+        <div class="bg-white bg-opacity-90 rounded-xl shadow-xl overflow-hidden p-6 mb-10">
+            <div class="text-center mb-8">
+                <div class="inline-block p-3 rounded-full bg-green-100 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <p id="failure-reason" class="italic"></p>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 id="failure-budget-label" class="font-bold text-green-400">最終預算</h4>
-                        <p id="failure-budget" class="text-2xl">$8,500</p>
-                    </div>
-                    <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 id="failure-satisfaction-label" class="font-bold text-green-400">觀眾滿意度</h4>
-                        <p id="failure-satisfaction" class="text-2xl">75%</p>
-                    </div>
-                    <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 id="failure-sustainability-label" class="font-bold text-green-400">永續指數</h4>
-                        <p id="failure-sustainability" class="text-2xl">40%</p>
-                    </div>
-                </div>
-                
-                <div class="flex flex-col md:flex-row gap-4 justify-center">
-                    <button id="restart-from-failure-btn" class="btn bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-6 rounded-lg">
-                        重新遊戲
-                    </button>
-                </div>
+                <h1 class="text-2xl font-bold text-green-800">Let's Go Green</h1>
+                <p class="text-green-600 mt-1">Explore green theatre and sustainability</p>
             </div>
+
+            <!-- Enhanced Link Buttons - Now positioned first -->
+            <div class="button-container">
+                <a href="https://theatregreenbook.com/" target="_blank" class="link-button block py-4 px-6 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg text-center transition duration-300 ease-in-out shadow-lg border-2 border-green-500">
+                    <div class="button-content flex-col">
+                        <div class="button-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        <div class="button-text-container">
+                            <div class="button-text">Theatre Green Book</div>
+                            <div class="button-description">Green production guidelines</div>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="https://libguides.hkapa.edu/sustainability" target="_blank" class="link-button block py-4 px-6 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg text-center transition duration-300 ease-in-out shadow-lg border-2 border-green-500">
+                    <div class="button-content flex-col">
+                        <div class="button-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
+                            </svg>
+                        </div>
+                        <div class="button-text-container">
+                            <div class="button-text">More Resources on Sustainability</div>
+                            <div class="button-description">Learn more about sustainability</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Mini Game Heading -->
+            <div class="text-center mb-4">
+                <h2 class="text-xl font-semibold text-green-800 section-heading">Mini Game</h2>
+            </div>
+
+            <!-- Embedded Widget with Fullscreen Button -->
+            <div class="embed-container mb-6 relative">
+                <button id="fullscreenBtn" class="fullscreen-button" aria-label="Enter fullscreen">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                </button>
+                <iframe id="gameIframe" src="https://veronicalau-bot.github.io/green-theatre/" width="100%" height="1000" frameborder="0" allowfullscreen=""></iframe>
+            </div>
+        </div>
+
+        <!-- View Source Code Button -->
+        <div class="text-center mb-8">
+            <button id="viewSourceBtn" class="py-2 px-4 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition duration-300 flex items-center mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                </svg>
+                View Source Code
+            </button>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="text-center text-white text-sm opacity-70 pb-4">
+        <p>© 2025 HKAPA Libraries</p>
+    </footer>
+
+    <!-- Source Code Modal -->
+    <div id="codeModal" class="code-modal">
+        <div class="code-content">
+            <span class="close-button" id="closeModal">×</span>
+            <h2 class="text-xl font-bold mb-4 text-green-400">Website Source Code</h2>
+            <pre id="sourceCode"></pre>
+        </div>
+    </div>
+
+    <!-- Fullscreen iframe container -->
+    <div id="fullscreenContainer" class="fullscreen-iframe">
+        <button id="exitFullscreen" class="exit-fullscreen" aria-label="Exit fullscreen">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <iframe id="fullscreenIframe" src="" frameborder="0" allowfullscreen=""></iframe>
+    </div>
+
     <script>
-        let currentLanguage = 'zh'; // Default language is Chinese
-
-        const textContent = {
-            zh: {
-                startTitle: "綠色劇場經理",
-                startDescription: "成為永續劇場的先驅，實踐 Theatre Green Book 的理念！",
-                feature1Title: "永續製作",
-                feature1Desc: "選擇環保的道具材料",
-                feature2Title: "永續建築",
-                feature2Desc: "升級劇場設施以節能減排",
-                feature3Title: "永續營運",
-                feature3Desc: "改善日常運作減少浪費",
-                startButton: "開始遊戲",
-                headerTitle: "綠色劇場經理",
-                budgetLabel: "💰",
-                satisfactionLabel: "😊",
-                levelLabel: "🌱",
-                satisfactionProgressLabel: "觀眾滿意度:",
-                sustainabilityProgressLabel: "永續指數:",
-                feedbackTitle: "選擇結果",
-                budgetImpactLabel: "預算影響:",
-                satisfactionImpactLabel: "滿意度影響:",
-                sustainabilityImpactLabel: "永續指數影響:",
-                tipTitle: "💡 永續小知識",
-                nextButton: "繼續",
-                resultsTitle: "遊戲結束！",
-                resultsDescription: "你的劇場永續之旅已完成",
-                finalBudgetLabel: "最終預算",
-                finalSatisfactionLabel: "觀眾滿意度",
-                finalSustainabilityLabel: "永續指數",
-                environmentalImpactLabel: "環境影響報告",
-                restartButton: "重新遊戲",
-                failureTitle: "任務失敗！",
-                failureDescription: "你的劇場未能達到永續發展的標準",
-                failureBudgetLabel: "最終預算",
-                failureSatisfactionLabel: "觀眾滿意度",
-                failureSustainabilityLabel: "永續指數",
-                restartFromFailureButton: "重新遊戲"
-            },
-            en: {
-                startTitle: "Green Theater Manager",
-                startDescription: "Become a pioneer in sustainable theater and implement the Theatre Green Book's principles!",
-                feature1Title: "Sustainable Production",
-                feature1Desc: "Choose eco-friendly materials for props",
-                feature2Title: "Sustainable Buildings",
-                feature2Desc: "Upgrade theater facilities for energy efficiency",
-                feature3Title: "Sustainable Operations",
-                feature3Desc: "Improve daily operations to reduce waste",
-                startButton: "Start Game",
-                headerTitle: "Green Theater Manager",
-                budgetLabel: "💰",
-                satisfactionLabel: "😊",
-                levelLabel: "🌱",
-                satisfactionProgressLabel: "Audience Satisfaction:",
-                sustainabilityProgressLabel: "Sustainability Index:",
-                feedbackTitle: "Choice Result",
-                budgetImpactLabel: "Budget Impact:",
-                satisfactionImpactLabel: "Satisfaction Impact:",
-                sustainabilityImpactLabel: "Sustainability Impact:",
-                tipTitle: "💡 Sustainability Tip",
-                nextButton: "Continue",
-                resultsTitle: "Game Over!",
-                resultsDescription: "Your sustainable theater journey is complete",
-                finalBudgetLabel: "Final Budget",
-                finalSatisfactionLabel: "Audience Satisfaction",
-                finalSustainabilityLabel: "Sustainability Index",
-                environmentalImpactLabel: "Environmental Impact Report",
-                restartButton: "Restart Game",
-                failureTitle: "Mission Failed!",
-                failureDescription: "Your theater failed to meet sustainability standards",
-                failureBudgetLabel: "Final Budget",
-                failureSatisfactionLabel: "Audience Satisfaction",
-                failureSustainabilityLabel: "Sustainability Index",
-                restartFromFailureButton: "Restart Game"
-            }
-        };
-
-        const gameState = {
-            currentLevel: 1,
-            maxLevels: 10,
-            budget: 10000,
-            satisfaction: 80,
-            sustainabilityIndex: 10,
-            minSatisfaction: 50,
-            minSustainabilityIndex: 50,
-            currentScenario: null,
-            isGameOver: false
-        };
-
-        const scenarios = [
-            {
-                id: 1,
-                title: { zh: "永續製作：舞台布景選擇", en: "Sustainable Production: Stage Set Choice" },
-                description: { zh: "你的劇場即將製作一齣新戲，需要決定舞台布景的材料。你會選擇什麼？", en: "Your theater is about to produce a new play and needs to decide on materials for the stage set. What will you choose?" },
-                image: "stage",
-                choices: [
-                    { text: { zh: "全新材料", en: "Brand New Materials" }, budgetImpact: -1000, satisfactionImpact: 5, sustainabilityImpact: -5, feedback: { zh: "全新材料看起來很棒，觀眾很滿意，但對環境影響較大。", en: "Brand new materials look great, and the audience is satisfied, but they have a significant environmental impact." }, tip: { zh: "根據 Theatre Green Book，重複使用現有材料可以減少高達 60% 的製作碳足跡。", en: "According to the Theatre Green Book, reusing existing materials can reduce the production carbon footprint by up to 60%." } },
-                    { text: { zh: "回收再利用的材料", en: "Recycled and Reused Materials" }, budgetImpact: -500, satisfactionImpact: 0, sustainabilityImpact: 10, feedback: { zh: "你使用了回收材料，節省了成本，也減少了環境影響。", en: "You used recycled materials, saving costs and reducing environmental impact." }, tip: { zh: "回收材料不僅環保，還能激發創意設計，Theatre Green Book 建議優先考慮再利用和回收。", en: "Recycled materials are not only eco-friendly but also inspire creative design. The Theatre Green Book recommends prioritizing reuse and recycling." } },
-                    { text: { zh: "租借或改造現有布景", en: "Rent or Modify Existing Sets" }, budgetImpact: -300, satisfactionImpact: -2, sustainabilityImpact: 15, feedback: { zh: "改造現有布景大幅節省了資源，雖然有些觀眾注意到了重複使用的元素。", en: "Modifying existing sets significantly saves resources, though some audience members noticed reused elements." }, tip: { zh: "Theatre Green Book 推薦的最佳實踐是先考慮是否能改造現有資源，再考慮購買新材料。", en: "The Theatre Green Book recommends first considering whether existing resources can be modified before purchasing new materials." } }
-                ]
-            },
-            {
-                id: 2,
-                title: { zh: "永續建築：照明系統升級", en: "Sustainable Buildings: Lighting System Upgrade" },
-                description: { zh: "劇場的照明系統老舊耗電，是時候考慮升級了。你會如何選擇？", en: "The theater's lighting system is old and power-hungry. It's time to consider an upgrade. What will you choose?" },
-                image: "lighting",
-                choices: [
-                    { text: { zh: "維持現有系統", en: "Maintain Existing System" }, budgetImpact: -200, satisfactionImpact: -5, sustainabilityImpact: -5, feedback: { zh: "維持老舊系統節省了短期成本，但能源消耗高，且燈光效果不佳。", en: "Maintaining the old system saves short-term costs, but it consumes high energy and has poor lighting effects." }, tip: { zh: "傳統劇場照明可能消耗劇場總能源的 30-40%，是減碳的重要目標。", en: "Traditional theater lighting can account for 30-40% of total energy use, making it a key target for carbon reduction." } },
-                    { text: { zh: "部分更換為 LED 燈具", en: "Partially Replace with LED Lights" }, budgetImpact: -1000, satisfactionImpact: 5, sustainabilityImpact: 10, feedback: { zh: "部分更換為 LED 燈具平衡了成本和環保需求，觀眾注意到了更好的燈光效果。", en: "Partially switching to LED lights balances cost and sustainability, with audiences noticing improved lighting effects." }, tip: { zh: "LED 燈具比傳統燈具節能 70-80%，且壽命更長，長期來看更經濟。", en: "LED lights are 70-80% more energy-efficient than traditional lights and have a longer lifespan, making them more cost-effective in the long run." } },
-                    { text: { zh: "全面升級為智能 LED 系統", en: "Fully Upgrade to Smart LED System" }, budgetImpact: -2500, satisfactionImpact: 10, sustainabilityImpact: 20, feedback: { zh: "全面升級為智能 LED 系統初期投資大，但大幅提升了能源效率和觀眾體驗。", en: "Fully upgrading to a smart LED system requires a large initial investment but greatly improves energy efficiency and audience experience." }, tip: { zh: "Theatre Green Book 建議，智能照明系統不僅節能，還能通過自動調節減少不必要的能源消耗。", en: "The Theatre Green Book suggests that smart lighting systems not only save energy but also reduce unnecessary consumption through automation." } }
-                ]
-            },
-            {
-                id: 3,
-                title: { zh: "永續營運：觀眾節目單", en: "Sustainable Operations: Audience Programs" },
-                description: { zh: "每場演出都需要提供節目單，你會選擇哪種方式？", en: "Each performance requires providing programs to the audience. Which method will you choose?" },
-                image: "program",
-                choices: [
-                    { text: { zh: "傳統紙質節目單", en: "Traditional Paper Programs" }, budgetImpact: -500, satisfactionImpact: 5, sustainabilityImpact: -10, feedback: { zh: "紙質節目單受到部分觀眾歡迎，但造成了大量紙張浪費。", en: "Paper programs are popular with some audience members but result in significant paper waste." }, tip: { zh: "一個中型劇場一年可能使用超過 10,000 份紙質節目單，大部分演出後即被丟棄。", en: "A medium-sized theater might use over 10,000 paper programs annually, most of which are discarded after performances." } },
-                    { text: { zh: "可回收紙張 + 減量印刷", en: "Recycled Paper + Reduced Printing" }, budgetImpact: -300, satisfactionImpact: 0, sustainabilityImpact: 5, feedback: { zh: "使用可回收紙張並減少印刷數量，平衡了環保和觀眾需求。", en: "Using recycled paper and reducing print runs balances environmental concerns with audience needs." }, tip: { zh: "Theatre Green Book 建議使用 FSC 認證紙張，並考慮「一個家庭一份」的分發策略。", en: "The Theatre Green Book recommends using FSC-certified paper and adopting a 'one per family' distribution strategy." } },
-                    { text: { zh: "數位節目單 + QR 碼", en: "Digital Programs + QR Codes" }, budgetImpact: -100, satisfactionImpact: -5, sustainabilityImpact: 15, feedback: { zh: "數位節目單大幅減少了紙張使用，但部分年長觀眾不太適應。", en: "Digital programs significantly reduce paper use, though some older audience members may find them less accessible." }, tip: { zh: "數位節目單不僅環保，還能提供更豐富的內容，如演員介紹視頻、互動元素等。", en: "Digital programs are not only eco-friendly but can also offer richer content, like actor introduction videos and interactive elements." } }
-                ]
-            },
-            {
-                id: 4,
-                title: { zh: "永續製作：服裝選擇", en: "Sustainable Production: Costume Choice" },
-                description: { zh: "新劇目需要服裝設計，你會如何指導服裝部門？", en: "A new production requires costume design. How will you guide the costume department?" },
-                image: "costume",
-                choices: [
-                    { text: { zh: "全新定制服裝", en: "Brand New Custom Costumes" }, budgetImpact: -1500, satisfactionImpact: 10, sustainabilityImpact: -10, feedback: { zh: "全新定制服裝視覺效果極佳，但消耗了大量資源。", en: "Brand new custom costumes offer excellent visual impact but consume significant resources." }, tip: { zh: "時尚產業是全球第二大污染產業，劇場服裝的可持續性對環境有重要影響。", en: "The fashion industry is the second most polluting globally, making costume sustainability critical for the environment." } },
-                    { text: { zh: "改造現有庫存服裝", en: "Modify Existing Inventory Costumes" }, budgetImpact: -500, satisfactionImpact: 0, sustainabilityImpact: 10, feedback: { zh: "改造現有服裝節省了資源，創意設計彌補了視覺上的差異。", en: "Modifying existing costumes saves resources, with creative design compensating for visual differences." }, tip: { zh: "Theatre Green Book 建議建立服裝庫存共享系統，最大化服裝的使用壽命。", en: "The Theatre Green Book suggests creating a costume inventory sharing system to maximize their lifespan." } },
-                    { text: { zh: "二手店採購 + 少量定制", en: "Second-Hand Purchases + Minimal Customization" }, budgetImpact: -800, satisfactionImpact: 5, sustainabilityImpact: 5, feedback: { zh: "結合二手採購和少量定制，既環保又保證了視覺效果。", en: "Combining second-hand purchases with minimal customization is both eco-friendly and ensures visual quality." }, tip: { zh: "混合採購策略可以減少高達 75% 的服裝碳足跡，同時保持藝術品質。", en: "A mixed procurement strategy can reduce costume carbon footprints by up to 75% while maintaining artistic quality." } }
-                ]
-            },
-            {
-                id: 5,
-                title: { zh: "永續建築：空調系統管理", en: "Sustainable Buildings: HVAC System Management" },
-                description: { zh: "夏季到來，劇場空調使用量大增，你會如何管理？", en: "Summer has arrived, and theater air conditioning use is surging. How will you manage it?" },
-                image: "hvac",
-                choices: [
-                    { text: { zh: "全天開啟空調", en: "Run AC All Day" }, budgetImpact: -1000, satisfactionImpact: 10, sustainabilityImpact: -15, feedback: { zh: "全天開啟空調讓觀眾感到舒適，但能源消耗巨大。", en: "Running the AC all day keeps audiences comfortable but consumes massive amounts of energy." }, tip: { zh: "空調系統可能佔劇場能源消耗的 40-50%，是節能的重要目標。", en: "HVAC systems can account for 40-50% of a theater's energy use, making them a key focus for energy savings." } },
-                    { text: { zh: "智能溫控系統", en: "Smart Temperature Control System" }, budgetImpact: -2000, satisfactionImpact: 5, sustainabilityImpact: 20, feedback: { zh: "安裝智能溫控系統初期投資較大，但長期節省能源並維持舒適度。", en: "Installing a smart temperature control system has a high initial cost but saves energy and maintains comfort long-term." }, tip: { zh: "智能溫控可以根據觀眾人數和室外溫度自動調節，比固定溫度設定節能 20-30%。", en: "Smart controls can adjust based on audience size and outdoor temperature, saving 20-30% more energy than fixed settings." } },
-                    { text: { zh: "自然通風 + 高效風扇", en: "Natural Ventilation + High-Efficiency Fans" }, budgetImpact: -500, satisfactionImpact: -5, sustainabilityImpact: 25, feedback: { zh: "結合自然通風和高效風扇大幅減少能源使用，但在極端天氣可能影響舒適度。", en: "Combining natural ventilation with efficient fans greatly reduces energy use, though comfort may suffer in extreme weather." }, tip: { zh: "Theatre Green Book 建議優先考慮被動式降溫策略，如遮陽、自然通風等，再輔以高效設備。", en: "The Theatre Green Book recommends prioritizing passive cooling strategies like shading and ventilation, supplemented by efficient equipment." } }
-                ]
-            },
-            {
-                id: 6,
-                title: { zh: "永續營運：餐飲服務", en: "Sustainable Operations: Catering Services" },
-                description: { zh: "劇場休息時間提供餐飲服務，你會如何規劃？", en: "The theater offers catering during intermissions. How will you plan it?" },
-                image: "catering",
-                choices: [
-                    { text: { zh: "一次性餐具 + 進口食品", en: "Disposable Utensils + Imported Food" }, budgetImpact: -800, satisfactionImpact: 5, sustainabilityImpact: -15, feedback: { zh: "一次性餐具方便但產生大量垃圾，進口食品碳足跡高。", en: "Disposable utensils are convenient but generate lots of waste, and imported food has a high carbon footprint." }, tip: { zh: "一次性塑料餐具可能需要數百年才能分解，是劇場常見的環境問題。", en: "Disposable plastic utensils can take centuries to decompose, a common environmental issue in theaters." } },
-                    { text: { zh: "可堆肥餐具 + 當地食材", en: "Compostable Utensils + Local Ingredients" }, budgetImpact: -1000, satisfactionImpact: 10, sustainabilityImpact: 15, feedback: { zh: "可堆肥餐具和當地食材減少了環境影響，觀眾對品質印象良好。", en: "Compostable utensils and local ingredients reduce environmental impact, and audiences appreciate the quality." }, tip: { zh: "當地採購可以減少食物里程，降低碳排放高達 70%，同時支持當地經濟。", en: "Local sourcing can reduce food miles, cutting carbon emissions by up to 70% while supporting the local economy." } },
-                    { text: { zh: "可重複使用餐具 + 素食選項", en: "Reusable Utensils + Vegetarian Options" }, budgetImpact: -1200, satisfactionImpact: 0, sustainabilityImpact: 25, feedback: { zh: "可重複使用餐具初期成本高但長期節省，素食選項大幅減少碳足跡。", en: "Reusable utensils have a high initial cost but save long-term, and vegetarian options significantly reduce the carbon footprint." }, tip: { zh: "Theatre Green Book 建議提供至少 50% 的植物性食品選項，可減少高達 60% 的餐飲碳足跡。", en: "The Theatre Green Book recommends offering at least 50% plant-based food options, reducing catering carbon footprints by up to 60%." } }
-                ]
-            },
-            {
-                id: 7,
-                title: { zh: "永續製作：特效選擇", en: "Sustainable Production: Special Effects Choice" },
-                description: { zh: "新劇目需要一些特效元素，你會選擇哪種方案？", en: "A new production requires special effects. Which option will you choose?" },
-                image: "effects",
-                choices: [
-                    { text: { zh: "傳統煙霧和火焰效果", en: "Traditional Smoke and Fire Effects" }, budgetImpact: -1000, satisfactionImpact: 15, sustainabilityImpact: -20, feedback: { zh: "傳統特效視覺衝擊力強，但使用了有害化學物質和高能耗設備。", en: "Traditional effects have strong visual impact but use harmful chemicals and high-energy equipment." }, tip: { zh: "傳統煙霧機使用的液體可能含有對環境有害的化學物質，且消耗大量能源。", en: "Traditional fog machines use liquids that may contain environmentally harmful chemicals and consume significant energy." } },
-                    { text: { zh: "LED 燈光 + 投影效果", en: "LED Lighting + Projection Effects" }, budgetImpact: -1500, satisfactionImpact: 10, sustainabilityImpact: 15, feedback: { zh: "數位特效減少了物理資源消耗，同時提供了豐富的視覺體驗。", en: "Digital effects reduce physical resource use while providing a rich visual experience." }, tip: { zh: "數位投影不僅環保，還能創造傳統特效難以實現的複雜視覺效果。", en: "Digital projections are eco-friendly and can create complex visual effects difficult to achieve with traditional methods." } },
-                    { text: { zh: "機械裝置 + 簡約設計", en: "Mechanical Devices + Minimalist Design" }, budgetImpact: -800, satisfactionImpact: 5, sustainabilityImpact: 10, feedback: { zh: "機械裝置和簡約設計減少了能源消耗，依靠創意彌補視覺效果。", en: "Mechanical devices and minimalist design reduce energy use, relying on creativity to enhance visuals." }, tip: { zh: "Theatre Green Book 鼓勵「少即是多」的設計理念，通過創意而非資源消耗來實現藝術效果。", en: "The Theatre Green Book encourages a 'less is more' design philosophy, achieving artistic effects through creativity rather than resource consumption." } }
-                ]
-            },
-            {
-                id: 8,
-                title: { zh: "永續建築：能源來源", en: "Sustainable Buildings: Energy Source" },
-                description: { zh: "劇場需要選擇能源供應商，你會如何決策？", en: "The theater needs to choose an energy supplier. How will you decide?" },
-                image: "energy",
-                choices: [
-                    { text: { zh: "傳統電網供電", en: "Traditional Grid Power" }, budgetImpact: -500, satisfactionImpact: 0, sustainabilityImpact: -10, feedback: { zh: "傳統電網成本較低，但主要依賴化石燃料，碳排放高。", en: "Traditional grid power is cheaper but relies heavily on fossil fuels, resulting in high carbon emissions." }, tip: { zh: "傳統電網在許多地區仍以煤炭和天然氣為主要能源，是劇場碳足跡的主要來源。", en: "In many regions, the traditional grid relies on coal and natural gas, a major source of a theater's carbon footprint." } },
-                    { text: { zh: "綠色能源供應商", en: "Green Energy Supplier" }, budgetImpact: -1000, satisfactionImpact: 5, sustainabilityImpact: 20, feedback: { zh: "轉換到綠色能源供應商增加了成本，但大幅減少了碳排放。", en: "Switching to a green energy supplier increases costs but significantly reduces carbon emissions." }, tip: { zh: "選擇100%可再生能源供應商可以立即減少劇場高達 40% 的碳足跡。", en: "Choosing a 100% renewable energy supplier can instantly reduce a theater's carbon footprint by up to 40%." } },
-                    { text: { zh: "安裝太陽能板", en: "Install Solar Panels" }, budgetImpact: -3000, satisfactionImpact: 10, sustainabilityImpact: 30, feedback: { zh: "太陽能板初期投資大，但長期節省能源成本，並成為永續形象的象徵。", en: "Solar panels require a large initial investment but save energy costs long-term and symbolize sustainability." }, tip: { zh: "Theatre Green Book 建議劇場考慮自行發電，不僅減少碳排放，還能在能源危機時保持運營。", en: "The Theatre Green Book suggests theaters consider self-generation, reducing emissions and ensuring operation during energy crises." } }
-                ]
-            },
-            {
-                id: 9,
-                title: { zh: "永續營運：廢棄物管理", en: "Sustainable Operations: Waste Management" },
-                description: { zh: "劇場每天產生大量廢棄物，你會如何管理？", en: "The theater generates significant waste daily. How will you manage it?" },
-                image: "waste",
-                choices: [
-                    { text: { zh: "單一垃圾桶收集", en: "Single Bin Collection" }, budgetImpact: -200, satisfactionImpact: -5, sustainabilityImpact: -15, feedback: { zh: "單一垃圾桶方便但大部分廢棄物最終進入垃圾填埋場。", en: "A single bin is convenient, but most waste ends up in landfills." }, tip: { zh: "劇場的廢棄物中，高達 70% 是可回收或可堆肥的，混合收集會失去這些資源。", en: "Up to 70% of theater waste is recyclable or compostable; mixed collection wastes these resources." } },
-                    { text: { zh: "分類回收系統", en: "Sorted Recycling System" }, budgetImpact: -500, satisfactionImpact: 5, sustainabilityImpact: 15, feedback: { zh: "分類回收系統幫助回收了大部分可回收物，觀眾反應積極。", en: "A sorted recycling system recovers most recyclables, and audiences respond positively." }, tip: { zh: "清晰的分類指引和策略性的垃圾桶放置可以提高回收率高達 60%。", en: "Clear sorting guides and strategic bin placement can boost recycling rates by up to 60%." } },
-                    { text: { zh: "零廢棄目標計劃", en: "Zero Waste Goal Plan" }, budgetImpact: -1000, satisfactionImpact: 10, sustainabilityImpact: 25, feedback: { zh: "零廢棄計劃大幅減少了垃圾堆填量，成為劇場亮點特色。", en: "A zero-waste plan drastically reduces landfill waste, becoming a theater highlight." }, tip: { zh: "Theatre Green Book 建議劇場採用「拒絕、減少、重用、回收、堆肥」的廢棄物層級管理原則。", en: "The Theatre Green Book recommends theaters adopt the 'refuse, reduce, reuse, recycle, compost' waste hierarchy." } }
-                ]
-            },
-            {
-                id: 10,
-                title: { zh: "永續整合：劇場未來規劃", en: "Sustainable Integration: Theater Future Planning" },
-                description: { zh: "作為劇場經理，你需要制定未來五年的永續發展計劃，你會選擇哪種方向？", en: "As theater manager, you need to set a five-year sustainability plan. Which direction will you choose?" },
-                image: "planning",
-                choices: [
-                    { text: { zh: "漸進式改善", en: "Gradual Improvement" }, budgetImpact: -1000, satisfactionImpact: 5, sustainabilityImpact: 10, feedback: { zh: "漸進式改善平衡了成本和環保需求，穩步提升永續表現。", en: "Gradual improvement balances cost and environmental needs, steadily enhancing sustainability." }, tip: { zh: "Theatre Green Book 建議設定明確的短期、中期和長期目標，循序漸進實現永續轉型。", en: "The Theatre Green Book suggests setting clear short-, medium-, and long-term goals for a gradual sustainability transition." } },
-                    { text: { zh: "全面綠色認證", en: "Full Green Certification" }, budgetImpact: -3000, satisfactionImpact: 15, sustainabilityImpact: 25, feedback: { zh: "追求綠色認證需要大量投資，但提升了劇場聲譽和長期競爭力。", en: "Pursuing green certification requires significant investment but boosts reputation and long-term competitiveness." }, tip: { zh: "國際綠色認證不僅是對永續努力的肯定，還能吸引更多環保意識強的觀眾和贊助商。", en: "International green certification validates sustainability efforts and attracts eco-conscious audiences and sponsors." } },
-                    { text: { zh: "社區永續中心", en: "Community Sustainability Hub" }, budgetImpact: -2000, satisfactionImpact: 20, sustainabilityImpact: 30, feedback: { zh: "將劇場發展為社區永續中心，成為教育和實踐的平台，影響更廣泛。", en: "Developing the theater into a community sustainability hub creates an educational and practical platform with broader impact." }, tip: { zh: "Theatre Green Book 強調劇場不僅應自身永續，還應成為社區變革的催化劑，擴大影響力。", en: "The Theatre Green Book emphasizes that theaters should not only be sustainable but also act as catalysts for community change, amplifying impact." } }
-                ]
-            }
-        ];
-
-        const bankruptcyReasons = {
-            zh: [
-                "你在劇場啟動階段就耗盡了資金。永續轉型需要穩健的財務規劃，確保每一步都在預算範圍內。",
-                "照明系統升級耗盡了你的預算。雖然節能設備是好投資，但需要分階段實施，確保現金流穩定。",
-                "即使是小決策也會累積影響。下次嘗試在每個環節都更加注重成本效益。",
-                "服裝製作成本超出預期，導致資金短缺。考慮更多創意和低成本的解決方案。",
-                "空調系統的投資過大，導致資金鏈斷裂。永續轉型需要平衡短期投資和長期收益。",
-                "餐飲服務的改革耗費了過多資金。下次可以考慮逐步改進，而非一次性大改革。",
-                "特效製作耗盡了預算。記住，有時簡約的創意解決方案比昂貴的技術更有效。",
-                "能源系統的大規模投資導致破產。可再生能源是長期投資，需要穩健的財務計劃支持。",
-                "廢棄物管理系統的實施成本超出預期。下次嘗試從小規模開始，逐步擴大。",
-                "你的長期規劃過於雄心勃勃，超出了劇場的財務能力。永續發展需要平衡理想和現實。"
-            ],
-            en: [
-                "You exhausted your funds during the theater's startup phase. Sustainable transformation requires solid financial planning to stay within budget.",
-                "The lighting system upgrade drained your budget. While energy-saving equipment is a good investment, it needs phased implementation to maintain cash flow.",
-                "Even small decisions can accumulate impact. Next time, focus more on cost-effectiveness at every step.",
-                "Costume production costs exceeded expectations, leading to a cash shortage. Consider more creative, low-cost solutions.",
-                "The HVAC system investment was too large, breaking the budget. Sustainable transformation requires balancing short-term costs and long-term gains.",
-                "Catering service reforms consumed too much funding. Consider gradual improvements instead of a one-time overhaul next time.",
-                "Special effects production depleted your budget. Remember, sometimes simple, creative solutions outperform expensive tech.",
-                "Large-scale energy system investments led to bankruptcy. Renewable energy is a long-term investment needing robust financial backing.",
-                "Waste management system costs exceeded expectations. Start small and scale up gradually next time.",
-                "Your long-term planning was overly ambitious, exceeding the theater's financial capacity. Sustainability requires balancing ideals with reality."
-            ]
-        };
-
-        const endings = {
-            best: {
-                title: { zh: "永續劇場大師", en: "Sustainable Theater Master" },
-                description: { zh: "恭喜你！你的劇場達到了最高的永續標準，成為全球典範！觀眾和環境都對你的成就感到滿意。", en: "Congratulations! Your theater has achieved the highest sustainability standards, becoming a global model! Both audience and environment are pleased with your success." },
-                suggestion: { zh: "你已經達到了最佳結局！試試看是否能以更高的預算完成遊戲？", en: "You've reached the best ending! Can you complete the game with an even higher budget?" }
-            },
-            good: {
-                title: { zh: "永續先驅", en: "Sustainability Pioneer" },
-                description: { zh: "你的劇場在永續方面表現出色，觀眾也很滿意。繼續努力，你將成為永續劇場的領袖！", en: "Your theater excels in sustainability, and the audience is satisfied. Keep it up to become a leader in sustainable theater!" },
-                suggestion: { zh: "你離最佳結局不遠了！試著在預算管理上更精打細算，或許能達到100%的滿意度和永續指數。", en: "You're close to the best ending! Refine your budget management to aim for 100% satisfaction and sustainability." }
-            },
-            normal: {
-                title: { zh: "綠色管理者", en: "Green Manager" },
-                description: { zh: "你的劇場在永續方面取得了一定的進展，觀眾也基本滿意。還有改進的空間！", en: "Your theater has made some progress in sustainability, and the audience is generally satisfied. There's room for improvement!" },
-                suggestion: { zh: "你的表現不錯，但還可以更好。試著在選擇時更注重永續性和觀眾體驗的平衡。", en: "You did well, but you can do better. Focus on balancing sustainability and audience experience in your choices." }
-            },
-            failure: {
-                title: { zh: "永續新手", en: "Sustainability Novice" },
-                description: { zh: "你的劇場未能達到永續發展的標準，觀眾也不太滿意。不要灰心，再試一次吧！", en: "Your theater didn't meet sustainability standards, and the audience isn't satisfied. Don't give up—try again!" },
-                suggestion: { zh: "你的劇場需要更多的永續實踐。試著選擇更環保的選項，並注意觀眾的需求。", en: "Your theater needs more sustainable practices. Opt for greener choices and pay attention to audience needs." }
-            }
-        };
-
-        const startScreen = document.getElementById('start-screen');
-        const gameScreen = document.getElementById('game-screen');
-        const resultsScreen = document.getElementById('results-screen');
-        const failureScreen = document.getElementById('failure-screen');
-        const startBtn = document.getElementById('start-btn');
-        const choicesContainer = document.getElementById('choices-container');
-        const feedbackContainer = document.getElementById('feedback-container');
-        const nextBtn = document.getElementById('next-btn');
-        const restartBtn = document.getElementById('restart-btn');
-        const restartFromFailureBtn = document.getElementById('restart-from-failure-btn');
-
-        const budgetDisplay = document.getElementById('budget');
-        const satisfactionDisplay = document.getElementById('satisfaction');
-        const levelDisplay = document.getElementById('level-display');
-        const satisfactionProgress = document.getElementById('satisfaction-progress');
-        const satisfactionValue = document.getElementById('satisfaction-value');
-        const sustainabilityProgress = document.getElementById('sustainability-progress');
-        const sustainabilityValue = document.getElementById('sustainability-value');
-        const scenarioTitle = document.getElementById('scenario-title');
-        const scenarioDescription = document.getElementById('scenario-description');
-        const scenarioImage = document.getElementById('scenario-image');
-        const feedbackText = document.getElementById('feedback-text');
-        const budgetImpact = document.getElementById('budget-impact');
-        const satisfactionImpact = document.getElementById('satisfaction-impact');
-        const sustainabilityImpact = document.getElementById('sustainability-impact');
-        const sustainabilityTip = document.getElementById('sustainability-tip');
-
-        const finalTitle = document.getElementById('final-title');
-        const finalDescription = document.getElementById('final-description');
-        const finalBudget = document.getElementById('final-budget');
-        const finalSatisfaction = document.getElementById('final-satisfaction');
-        const finalSustainability = document.getElementById('final-sustainability');
-        const environmentalImpact = document.getElementById('environmental-impact');
-        const suggestionContainer = document.getElementById('suggestion-container');
-
-        const failureReason = document.getElementById('failure-reason');
-        const failureBudget = document.getElementById('failure-budget');
-        const failureSatisfaction = document.getElementById('failure-satisfaction');
-        const failureSustainability = document.getElementById('failure-sustainability');
-
-        function updateText(language) {
-            document.getElementById('start-title').textContent = textContent[language].startTitle;
-            document.getElementById('start-description').textContent = textContent[language].startDescription;
-            document.getElementById('feature1-title').textContent = textContent[language].feature1Title;
-            document.getElementById('feature1-desc').textContent = textContent[language].feature1Desc;
-            document.getElementById('feature2-title').textContent = textContent[language].feature2Title;
-            document.getElementById('feature2-desc').textContent = textContent[language].feature2Desc;
-            document.getElementById('feature3-title').textContent = textContent[language].feature3Title;
-            document.getElementById('feature3-desc').textContent = textContent[language].feature3Desc;
-            document.getElementById('start-btn').textContent = textContent[language].startButton;
-            document.getElementById('header-title').textContent = textContent[language].headerTitle;
-            document.getElementById('budget-label').textContent = textContent[language].budgetLabel;
-            document.getElementById('satisfaction-label').textContent = textContent[language].satisfactionLabel;
-            document.getElementById('level-label').textContent = textContent[language].levelLabel;
-            document.getElementById('satisfaction-progress-label').textContent = textContent[language].satisfactionProgressLabel;
-            document.getElementById('sustainability-progress-label').textContent = textContent[language].sustainabilityProgressLabel;
-            document.getElementById('feedback-title').textContent = textContent[language].feedbackTitle;
-            document.getElementById('budget-impact-label').textContent = textContent[language].budgetImpactLabel;
-            document.getElementById('satisfaction-impact-label').textContent = textContent[language].satisfactionImpactLabel;
-            document.getElementById('sustainability-impact-label').textContent = textContent[language].sustainabilityImpactLabel;
-            document.getElementById('tip-title').textContent = textContent[language].tipTitle;
-            document.getElementById('next-btn').textContent = textContent[language].nextButton;
-            document.getElementById('results-title').textContent = textContent[language].resultsTitle;
-            document.getElementById('results-description').textContent = textContent[language].resultsDescription;
-            document.getElementById('final-budget-label').textContent = textContent[language].finalBudgetLabel;
-            document.getElementById('final-satisfaction-label').textContent = textContent[language].finalSatisfactionLabel;
-            document.getElementById('final-sustainability-label').textContent = textContent[language].finalSustainabilityLabel;
-            document.getElementById('environmental-impact-label').textContent = textContent[language].environmentalImpactLabel;
-            document.getElementById('restart-btn').textContent = textContent[language].restartButton;
-            document.getElementById('failure-title').textContent = textContent[language].failureTitle;
-            document.getElementById('failure-description').textContent = textContent[language].failureDescription;
-            document.getElementById('failure-budget-label').textContent = textContent[language].failureBudgetLabel;
-            document.getElementById('failure-satisfaction-label').textContent = textContent[language].failureSatisfactionLabel;
-            document.getElementById('failure-sustainability-label').textContent = textContent[language].failureSustainabilityLabel;
-            document.getElementById('restart-from-failure-btn').textContent = textContent[language].restartFromFailureButton;
+        // Source code modal functionality
+        const modal = document.getElementById("codeModal");
+        const btn = document.getElementById("viewSourceBtn");
+        const span = document.getElementById("closeModal");
+        const sourceCodeElement = document.getElementById("sourceCode");
+        
+        btn.onclick = function() {
+            const htmlContent = document.documentElement.outerHTML;
+            const escapedHtml = htmlContent
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+            sourceCodeElement.innerHTML = escapedHtml;
+            modal.style.display = "block";
         }
-
-        document.getElementById('lang-zh').addEventListener('click', () => {
-            currentLanguage = 'zh';
-            updateText(currentLanguage);
-            loadScenario(gameState.currentLevel);
+        
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        
+        // Fullscreen functionality
+        const fullscreenBtn = document.getElementById("fullscreenBtn");
+        const exitFullscreenBtn = document.getElementById("exitFullscreen");
+        const fullscreenContainer = document.getElementById("fullscreenContainer");
+        const fullscreenIframe = document.getElementById("fullscreenIframe");
+        const gameIframe = document.getElementById("gameIframe");
+        
+        fullscreenBtn.addEventListener("click", function() {
+            // Set the same source as the original iframe
+            fullscreenIframe.src = gameIframe.src;
+            // Show the fullscreen container
+            fullscreenContainer.style.display = "block";
+            // Prevent scrolling on the body
+            document.body.style.overflow = "hidden";
         });
-
-        document.getElementById('lang-en').addEventListener('click', () => {
-            currentLanguage = 'en';
-            updateText(currentLanguage);
-            loadScenario(gameState.currentLevel);
+        
+        exitFullscreenBtn.addEventListener("click", function() {
+            // Hide the fullscreen container
+            fullscreenContainer.style.display = "none";
+            // Allow scrolling again
+            document.body.style.overflow = "auto";
+            // Optional: pause/reset the iframe content by clearing and resetting src
+            const currentSrc = fullscreenIframe.src;
+            fullscreenIframe.src = "";
+            // We don't actually reset it here to avoid reloading the game
         });
-
-        startBtn.addEventListener('click', () => {
-            startScreen.classList.add('hidden');
-            gameScreen.classList.remove('hidden');
-            loadScenario(gameState.currentLevel);
-            updateDisplays();
-        });
-
-        nextBtn.addEventListener('click', () => {
-            feedbackContainer.classList.add('hidden');
-            if (gameState.currentLevel < gameState.maxLevels) {
-                gameState.currentLevel++;
-                loadScenario(gameState.currentLevel);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                checkWinCondition();
+        
+        // Also exit fullscreen when pressing Escape key
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape" && fullscreenContainer.style.display === "block") {
+                exitFullscreenBtn.click();
             }
         });
-
-        restartBtn.addEventListener('click', () => {
-            resetGame();
-            resultsScreen.classList.add('hidden');
-            gameScreen.classList.remove('hidden');
-            loadScenario(gameState.currentLevel);
-            updateDisplays();
-        });
-
-        restartFromFailureBtn.addEventListener('click', () => {
-            resetGame();
-            failureScreen.classList.add('hidden');
-            gameScreen.classList.remove('hidden');
-            loadScenario(gameState.currentLevel);
-            updateDisplays();
-        });
-
-        function resetGame() {
-            gameState.currentLevel = 1;
-            gameState.budget = 10000;
-            gameState.satisfaction = 80;
-            gameState.sustainabilityIndex = 10;
-            gameState.isGameOver = false;
-        }
-
-        function loadScenario(level) {
-            const scenario = scenarios.find(s => s.id === level) || scenarios[0];
-            gameState.currentScenario = scenario;
+        
+        // Adjust button layout based on screen size
+        function adjustButtonLayout() {
+            const buttons = document.querySelectorAll('.link-button');
+            const buttonContents = document.querySelectorAll('.button-content');
+            const isWideScreen = window.innerWidth >= 1024;
             
-            scenarioTitle.textContent = scenario.title[currentLanguage];
-            scenarioDescription.textContent = scenario.description[currentLanguage];
-            levelDisplay.textContent = currentLanguage === 'zh' ? `第 ${level} 關 / ${gameState.maxLevels} 關` : `Level ${level} / ${gameState.maxLevels}`;
-            scenarioImage.className = `w-full md:w-1/3 h-48 rounded-lg shadow-md ${scenario.image}-bg`;
-            
-            choicesContainer.innerHTML = '';
-            scenario.choices.forEach((choice, index) => {
-                const choiceCard = document.createElement('div');
-                choiceCard.className = 'card bg-gray-800 rounded-lg p-4 shadow-md hover:bg-gray-700 cursor-pointer transition-all';
-                const wouldCauseBankruptcy = gameState.budget + choice.budgetImpact <= 0;
-                if (wouldCauseBankruptcy) {
-                    choiceCard.classList.add('border-2', 'border-red-500');
+            buttonContents.forEach(content => {
+                if (isWideScreen) {
+                    content.classList.add('flex-col');
+                    content.classList.remove('flex-row');
+                } else {
+                    content.classList.remove('flex-col');
+                    content.classList.add('flex-row');
                 }
-                
-                choiceCard.innerHTML = `
-                    <h3 class="font-bold text-lg mb-2">${choice.text[currentLanguage]}</h3>
-                    <div class="flex flex-wrap gap-2 text-sm">
-                        <span class="px-2 py-1 rounded-full ${choice.budgetImpact > 0 ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'} ${wouldCauseBankruptcy ? 'budget-warning' : ''}">
-                            💰 ${choice.budgetImpact > 0 ? '+' : ''}${choice.budgetImpact}
-                        </span>
-                        <span class="px-2 py-1 rounded-full ${choice.satisfactionImpact > 0 ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'}">
-                            😊 ${choice.satisfactionImpact > 0 ? '+' : ''}${choice.satisfactionImpact}%
-                        </span>
-                        <span class="px-2 py-1 rounded-full ${choice.sustainabilityImpact > 0 ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'}">
-                            🌱 ${choice.sustainabilityImpact > 0 ? '+' : ''}${choice.sustainabilityImpact}%
-                        </span>
-                    </div>
-                    ${wouldCauseBankruptcy ? `<p class="text-red-500 mt-2 font-bold">⚠️ ${currentLanguage === 'zh' ? '警告：此選擇將導致破產！' : 'Warning: This choice will cause bankruptcy!'}</p>` : ''}
-                `;
-                
-                choiceCard.addEventListener('click', () => makeChoice(index));
-                choicesContainer.appendChild(choiceCard);
             });
         }
-
-        function makeChoice(choiceIndex) {
-            const choice = gameState.currentScenario.choices[choiceIndex];
-            
-            gameState.budget += choice.budgetImpact;
-            gameState.satisfaction += choice.satisfactionImpact;
-            gameState.sustainabilityIndex += choice.sustainabilityImpact;
-            
-            gameState.satisfaction = Math.max(0, Math.min(100, gameState.satisfaction));
-            gameState.sustainabilityIndex = Math.max(0, Math.min(100, gameState.sustainabilityIndex));
-            
-            updateDisplays();
-            
-            if (gameState.budget <= 0) {
-                showGameOver();
-                return;
-            }
-            
-            feedbackText.textContent = choice.feedback[currentLanguage];
-            budgetImpact.textContent = `${choice.budgetImpact > 0 ? '+' : ''}$${choice.budgetImpact}`;
-            satisfactionImpact.textContent = `${choice.satisfactionImpact > 0 ? '+' : ''}${choice.satisfactionImpact}%`;
-            sustainabilityImpact.textContent = `${choice.sustainabilityImpact > 0 ? '+' : ''}${choice.sustainabilityImpact}%`;
-            sustainabilityTip.textContent = choice.tip[currentLanguage];
-            
-            feedbackContainer.classList.remove('hidden');
-            setTimeout(() => feedbackContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-        }
-
-        function updateDisplays() {
-            budgetDisplay.textContent = `$${gameState.budget}`;
-            budgetDisplay.classList.toggle('budget-warning', gameState.budget < 1000);
-            satisfactionDisplay.textContent = `${gameState.satisfaction}%`;
-            satisfactionProgress.style.width = `${gameState.satisfaction}%`;
-            satisfactionValue.textContent = `${gameState.satisfaction}%`;
-            sustainabilityProgress.style.width = `${gameState.sustainabilityIndex}%`;
-            sustainabilityValue.textContent = `${gameState.sustainabilityIndex}%`;
-        }
-
-        function checkWinCondition() {
-            if (gameState.satisfaction < gameState.minSatisfaction || gameState.sustainabilityIndex < gameState.minSustainabilityIndex) {
-                showGameOver();
-            } else {
-                showResults();
-            }
-        }
-
-        function showResults() {
-            gameScreen.classList.add('hidden');
-            resultsScreen.classList.remove('hidden');
-            
-            let endingType;
-            if (gameState.satisfaction >= 90 && gameState.sustainabilityIndex >= 90) {
-                endingType = 'best';
-            } else if (gameState.satisfaction >= 75 && gameState.sustainabilityIndex >= 75) {
-                endingType = 'good';
-            } else if (gameState.satisfaction >= 50 && gameState.sustainabilityIndex >= 50) {
-                endingType = 'normal';
-            } else {
-                endingType = 'failure';
-            }
-            
-            const ending = endings[endingType];
-            
-            const titleElement = document.getElementById('results-title');
-            if (endingType === 'failure') {
-                titleElement.classList.remove('text-green-400');
-                titleElement.classList.add('text-red-500');
-                titleElement.textContent = textContent[currentLanguage].failureTitle;
-            } else {
-                titleElement.classList.remove('text-red-500');
-                titleElement.classList.add('text-green-400');
-                titleElement.textContent = textContent[currentLanguage].resultsTitle;
-            }
-            
-            finalTitle.textContent = ending.title[currentLanguage];
-            finalDescription.textContent = ending.description[currentLanguage];
-            finalBudget.textContent = `$${gameState.budget}`;
-            finalSatisfaction.textContent = `${gameState.satisfaction}%`;
-            finalSustainability.textContent = `${gameState.sustainabilityIndex}%`;
-            
-            suggestionContainer.innerHTML = `<p class="text-lg">${ending.suggestion[currentLanguage]}</p>`;
-            
-            const carbonReduction = Math.round(gameState.sustainabilityIndex / 10);
-            const treesPlanted = Math.round(gameState.sustainabilityIndex / 2.5);
-            environmentalImpact.textContent = currentLanguage === 'zh' ? `你的決策幫助減少了約 ${carbonReduction} 噸的碳排放，相當於種植了 ${treesPlanted} 棵樹！` : `Your decisions helped reduce approximately ${carbonReduction} tons of carbon emissions, equivalent to planting ${treesPlanted} trees!`;
-            
-            if (endingType === 'best') {
-                createConfetti();
-            }
-        }
-
-        function showGameOver() {
-            gameState.isGameOver = true;
-            gameScreen.classList.add('hidden');
-            failureScreen.classList.remove('hidden');
-            
-            const reasonIndex = Math.min(gameState.currentLevel - 1, bankruptcyReasons[currentLanguage].length - 1);
-            failureReason.textContent = currentLanguage === 'zh' ? `失敗原因：劇場破產 - ${bankruptcyReasons[currentLanguage][reasonIndex]}` : `Failure Reason: Theater Bankruptcy - ${bankruptcyReasons[currentLanguage][reasonIndex]}`;
-            failureBudget.textContent = `$${gameState.budget}`;
-            failureSatisfaction.textContent = `${gameState.satisfaction}%`;
-            failureSustainability.textContent = `${gameState.sustainabilityIndex}%`;
-        }
-
-        function createConfetti() {
-            const confettiColors = ['#22c55e', '#10b981', '#059669', '#047857', '#065f46'];
-            const confettiCount = 100;
-            
-            for (let i = 0; i < confettiCount; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-                confetti.style.left = `${Math.random() * 100}%`;
-                confetti.style.top = `-20px`;
-                confetti.style.width = `${Math.random() * 10 + 5}px`;
-                confetti.style.height = `${Math.random() * 10 + 5}px`;
-                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-                confetti.style.opacity = '1';
-                
-                resultsScreen.appendChild(confetti);
-                
-                const duration = Math.random() * 3 + 2;
-                const rotation = Math.random() * 360;
-                
-                confetti.animate([
-                    { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
-                    { transform: `translateY(${window.innerHeight}px) rotate(${rotation}deg)`, opacity: 0 }
-                ], {
-                    duration: duration * 1000,
-                    easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
-                });
-                
-                setTimeout(() => confetti.remove(), duration * 1000);
-            }
-        }
-
-        updateText(currentLanguage);
-        loadScenario(gameState.currentLevel);
-        updateDisplays();
+        
+        // Run on page load and window resize
+        window.addEventListener('load', adjustButtonLayout);
+        window.addEventListener('resize', adjustButtonLayout);
     </script>
-</body>
-</html>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9386381f51186e55',t:'MTc0NjAwNzUxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe>
+</body></html>
